@@ -9,3 +9,8 @@ ggplot(data = mpg) + geom_point(mapping = aes(x = manufacturer, y = cty))
 ggplot(data = mpg) + geom_point(mapping = aes(x = manufacturer, y = displ))
 ggplot(data = mpg) + geom_point(mapping = aes(x = year, y = hwy))
 ggplot(data = mpg) + geom_point(mapping = aes(x = cty, y = hwy))
+
+
+
+
+print("Finished")

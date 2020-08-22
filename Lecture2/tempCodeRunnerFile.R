@@ -1,2 +1,1 @@
-ggplot(data = mpg) +
-geom_bar(mapping=aes(x=drv, color=manufacturer))
+pping = aes(x = manufacturer, y = hwy, color = displ < 5))
