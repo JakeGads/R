@@ -10,30 +10,43 @@ storms
 
 head = ggplot(data=storms)
 
-# These 2 are examples the idea is that we see the spread of years alongside the names
-head + 
+# 0.0
 geom_bar(mapping=aes(x=year))
 
+# 0.1
 head +
 geom_bar(mapping=aes(x=name))
 
+# 1
 head +  
 geom_point(mapping=aes(x=month, y=year, color=hour)) 
 # This probablly really says something cool if I could see colors
 
-# same graph different colors 0
+# 2.0
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=wind)) 
 
-# same graph different colors 1
+# 2.1
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=pressure)) 
 
-# same graph different colors 2
+# 2.2
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=category)) 
 
-
+# 3
 head +  
 geom_point(mapping=aes(x=wind, y=pressure, color=category)) +
 geom_smooth(mapping = aes(x = wind, y = pressure)) 
+
+
+# 4
+head + 
+geom_point(mapping = aes(x = year, y = pressure))
+
+# 5
+head + 
+geom_point(mapping = aes(x = month, y = pressure))
+
+# The pressure in the storms did not have a trend from year to year, but there was a trend across months. 
+# Typically, summer months had a much higher spread in pressure than winter months.
