@@ -21,19 +21,17 @@ head +
 geom_point(mapping=aes(x=month, y=year, color=hour)) 
 # This probablly really says something cool if I could see colors
 
-# same graph different colors 0
+# Graph 1
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=wind)) 
 
-# same graph different colors 1
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=pressure)) 
 
-# same graph different colors 2
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=category)) 
 
-
+# graph 2
 head +  
 geom_point(mapping=aes(x=wind, y=pressure, color=category)) +
 geom_smooth(mapping = aes(x = wind, y = pressure)) 
