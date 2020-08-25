@@ -1,1 +1,2 @@
-library(tinyverse)
+library(tidyverse) #loading the lib
+
