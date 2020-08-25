@@ -12,7 +12,7 @@ head = ggplot(data=storms) # we use head becuase it saves time during compile he
 
 # 0.0 Playing Around
 head +
-geom_bar(mapping=aes(x=year)) +
+geom_bar(mapping=aes(x=year,fill=category)) +
 ggtitle("Years in the dataset [All]")
 
 # 0.1 Playing Around
