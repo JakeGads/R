@@ -25,29 +25,16 @@ head +
 geom_point(mapping=aes(x=lat, y=long, color=wind))  +
 ggtitle("Lat v Long (Wind Edition)")
 
-<<<<<<< HEAD
-# Graph 1
-=======
 # 1.1 Jake
->>>>>>> 4f6a13c9732b9c70e27446ba61c0387824fc1dd5
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=pressure)) +
 ggtitle("Lat v Long (Pressure Edition)")
 
-<<<<<<< HEAD
-=======
 # 1.2 Jake
->>>>>>> 4f6a13c9732b9c70e27446ba61c0387824fc1dd5
 head +  
 geom_point(mapping=aes(x=lat, y=long, color=category)) +
 ggtitle("lat v long (Category Edition)")
 
-<<<<<<< HEAD
-head +  
-geom_point(mapping=aes(x=lat, y=long, color=category)) 
-
-# graph 2
-=======
 # 2 Jake
 head +  
 geom_point(mapping=aes(x=wind, y=pressure, color=category)) +
@@ -55,7 +42,6 @@ geom_smooth(mapping = aes(x = wind, y = pressure)) +
 ggtitle("Wind v Presure w/ category")
 
 # 3 Jake
->>>>>>> 4f6a13c9732b9c70e27446ba61c0387824fc1dd5
 head +  
 geom_point(mapping=aes(x=month, y=year, color=hour)) +
 ggtitle("What time storms happen every year")
