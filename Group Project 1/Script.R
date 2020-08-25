@@ -54,7 +54,7 @@ ggtitle("Year v Pressure [Cam]")
 
 # 5 Cam
 head + 
-geom_point(mapping = aes(x = month, y = pressure), color="blue") + 
+geom_point(mapping = aes(x = month, y = pressure, color = wind)) +
 ggtitle("Month v Pressure [Cam]")
 # The pressure in the storms did not have a trend from year to year, but there was a trend across months. 
 # Typically, summer months had a much higher spread in pressure than winter months.
