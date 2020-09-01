@@ -43,3 +43,30 @@ head <- ggplot(filter(flights, month <= 1 | month <= 12, day==13)) # or
 # arrange(dataset, colum_orderby)
 head <- ggplot(arrange(flights, year, month, day, hour, minute))
 head <- ggplot(arrange(desc(flights), desc(year), desc(month), desc(day), desc(hour), desc(minute)))
+
+ggplot(filter(flight, orgin=="JFK", distance > 4000, dep_delay > 1000)
+arrange(flights, desc(dep_delay))
+       
+# Selecting
+a <- select(flights. month, dep_delay, dest)       
+arrange(a, dec(dep_delay))
+       
+# Removing
+select(a, -dest)      
+       
+       
+select(a, year:day) # parse the list
+select(a, -(year:day))
+       
+select(flights, starts_with("dep"))
+select(flights, ends_with("time"))
+select(flights, contains("dep"))
+       
+mutate(flights, gain=dep_delay-arr_delay) # adds a new column to it all
+
+# Transmute makes a new dataset from the math that you provide it
+transmute(A, gain=dep_delay-arr_delay)
+       
+# Other Operations
+# Can use logic to calculate booleans       
+       
