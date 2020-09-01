@@ -40,4 +40,6 @@ head <- ggplot(filter(flights, month <= 1 & month <= 12, day==13)) # and
 head <- ggplot(filter(flights, month <= 1 | month <= 12, day==13)) # or
 # you can "not" any operation using !
 
-
+# arrange(dataset, colum_orderby)
+head <- ggplot(arrange(flights, year, month, day, hour, minute))
+head <- ggplot(arrange(desc(flights), desc(year), desc(month), desc(day), desc(hour), desc(minute)))
