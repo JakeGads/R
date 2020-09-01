@@ -21,9 +21,7 @@ facet_wrap(~month)
 # Focus on one of the month we have decied that to be June
 
 # Transformation Methods
-
 # *transform*(data, specifics) -> generate a new dataset
-
 # 1. filter -> pull out only opservations with specific values
 head <- ggplot(filter(flights, month==1))
 
@@ -33,4 +31,13 @@ facet_wrap(~day)
 
 # we can expand on a filter
 head <- ggplot(filter(flights, month==1, day==13))
+
+# Logical operators 
+head <- ggplot(filter(flights, month <= 1, day==13))
+
+# anding & oring
+head <- ggplot(filter(flights, month <= 1 & month <= 12, day==13)) # and
+head <- ggplot(filter(flights, month <= 1 | month <= 12, day==13)) # or
+# you can "not" any operation using !
+
 
