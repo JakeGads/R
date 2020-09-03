@@ -71,3 +71,10 @@ a <- flights %>%
 # Read as  Then
 
 summarise(a, mean(gain), na.rm=TRUE)
+
+# n() - number or count the number of rows
+# n_distinct()- distinct values can be passed a col
+# first, last, nth(col, position) pulls that specific col
+# min(), max(), quartile(col, percentage)
+# mean(), median()
+# sd(), IQR()
