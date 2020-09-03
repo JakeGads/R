@@ -84,4 +84,4 @@ group_by(flights, month,day)
 flights %>%
   group_by(month,day)%>%
   summarise(mean_delay=mean(dep_delay,na.rm=TRUE))
-# ungroup undoes the operation
+ungroup undoes the operation
