@@ -12,3 +12,6 @@ new data set is "midwest"
 
 PID county state  area poptotal popdensity popwhite popblack popamerindian popasian popother percwhite percblack percamerindan
    <int> <chr>  <chr> <dbl>    <int>      <dbl>    <int>    <int>         <int>    <int>    <int>     <dbl>     <dbl>         <dbl>
+
+cr5298
+ah1515
