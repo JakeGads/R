@@ -78,3 +78,10 @@ summarise(a, mean(gain), na.rm=TRUE)
 # min(), max(), quartile(col, percentage)
 # mean(), median()
 # sd(), IQR()
+
+group_by(flights, month,day)
+
+flights %>%
+  group_by(month,day)%>%
+  summarise(mean_delay=mean(dep_delay,na.rm=TRUE))
+# ungroup undoes the operation
