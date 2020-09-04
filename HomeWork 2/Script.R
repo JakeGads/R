@@ -45,3 +45,32 @@ flights %>%
 # What happens if you include the name of a variable multiple times in a select() call?
 flights %>%
   select(carrier, dep_time, carrier)
+
+select(flights, contains("TIME"))
+
+select(flights, -contains("TIME"))
+
+flights %>% 
+mutate(true_air = arr_time - dep_time) %>%
+select(air_time, true_air)
+
+flights %>%
+select(sched_dep_time, dep_delay, dep_time,)
+
+flights %>%
+group_by(carrier) %>%
+mutate(total_delay = dep_delay - arr_delay) %>%
+summarise(mean_delay=mean(total_delay,na.rm=TRUE)) %>%
+arrange(desc(mean_delay))
+
+flights %>%
+mutate(total_delay = dep_delay - arr_delay) %>%
+mutate(approx_hour = floor(sched_dep_time / 60)) %>%
+group_by(approx_hour) %>%
+summarise(mean_delay=mean(total_delay,na.rm=TRUE)) %>%
+arrange(mean_delay) %>%
+select(approx_hour, mean_delay)
+
+a <- flights %>%
+mutate(hour = sched_dep_time / 60) %>%
+select(hour)
