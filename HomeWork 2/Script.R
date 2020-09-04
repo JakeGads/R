@@ -34,12 +34,13 @@ flights %>%
   )
 
 # Were delayed by at least an hour, but made up over 30 minutes in flight
-# TODO ask carl about this question
+flights %>%
+filter(dep_delay >= 60 & dep_delay - arr_delay > 30)
 
 # Departed between midnight and 6am (inclusive)
 flights %>%
   filter(
-    dep_time < (6 * 60)
+    dep_time < (6 * 100)
   )
 
 # What happens if you include the name of a variable multiple times in a select() call?
