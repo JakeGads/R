@@ -42,11 +42,12 @@ filter( arr_delay > (60 * 2) & dep_delay <= 0)
 
 6. Were delayed by at least an hour, but made up over 30 minutes in flight
 
-```dotnetcli
-TODO @CARL is this delayed > 1 hour at dep and then arrived dep - arr > 30 
+```r
+flights %>%
+filter(dep_delay >= 60 & dep_delay - arr_delay > 30)
 ```
 
-7. Departed between midnight and 6am (inclusive)
+1. Departed between midnight and 6am (inclusive)
 
 ```r
 flights %>% filter(dep_time < (6 * 60))
@@ -85,7 +86,7 @@ mutate(true_air = arr_time - dep_time) %>%
 select(air_time, true_air)
 ```
 
-    You would expect the 2 numbers to the same but they are not @TODO ask Carl
+    You would expect the 2 numbers to the same but they are not, I will blame time zones for us
 
 ### 3. Compare dep_time, sched_dep_time, and dep_delay. How would you expect those three numbers to be related?
 
