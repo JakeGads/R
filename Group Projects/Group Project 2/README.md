@@ -1,7 +1,7 @@
-5 cool grpahs
-an explanition of how you got there
+5 cool graphs
+an explanation of how you got there
 
-A picture of orgianl dataset
+A picture of original dataset
 A transformation
 A picture of the transformation
 
@@ -10,8 +10,27 @@ most interesting transformation
 
 new data set is "midwest"
 
-PID county state  area poptotal popdensity popwhite popblack popamerindian popasian popother percwhite percblack percamerindan
-   <int> <chr>  <chr> <dbl>    <int>      <dbl>    <int>    <int>         <int>    <int>    <int>     <dbl>     <dbl>         <dbl>
-
 cr5298
 ah1515
+
+```
+category <chr>
+inmetro <int>
+percadultpoverty <dbl>
+percamerindan <dbl>
+percasian <dbl>
+percbelowpoverty <dbl>
+percblack <dbl>
+percchildbelowpovert <dbl>
+percelderlypoverty <dbl>
+perchsd <dbl>
+percollege <dbl>
+percother <dbl>
+percpovertyknown <dbl>
+percprof <dbl>
+percwhite <dbl>
+popadults <int>
+popasian <int>
+popother <int>
+poppovertyknown <int>
+```
