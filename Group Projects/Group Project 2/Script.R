@@ -31,7 +31,7 @@ ggtitle("orignal")
 
 midwest %>%
 filter(popadults >= 3e+6) %>%
-arrange(descc(popdensity))
+arrange(desc(popdensity))
 
 midwest %>%
 filter(popadults >= 1e+6) %>%
@@ -40,12 +40,12 @@ select(popdensity)
 
 ggplot(midwest) +
 geom_point(mapping=aes(popadults, poppovertyknown, color=popdensity)) +
-gg_title("Pop Density")
+ggtitle("Pop Density")
 
 ggplot(midwest) +
 geom_point(mapping=aes(popadults, poppovertyknown, color=popdensity)) +
 geom_smooth(mapping=aes(popadults, poppovertyknown)) +
-gg_title("Pop Density w/ regression line")
+ggtitle("Pop Density w/ regression line")
 
 # This really brings us to the shocking conclusion that the more people exist in a place the higher amount of poverty as well.
 
@@ -53,7 +53,8 @@ gg_title("Pop Density w/ regression line")
 
 
 ggplot(midwest) +
-geom_point(aes(popdensity, percbelowpoverty))
+geom_point(aes(popdensity, percbelowpoverty)) + 
+ggtitle("Orginal")
 
 ggplot(midwest) +
 geom_point(aes(popdensity, percbelowpoverty, color=inmetro == 1))
@@ -64,7 +65,8 @@ j2 <- midwest %>%
 filter(inmetro == 1)
 
 ggplot(j2) +
-geom_point(aes(popdensity, percbelowpoverty, color=poppovertyknown))
+geom_point(aes(popdensity, percbelowpoverty, color=poppovertyknown)) +
+ggtitle("Trimed DataSet")
 
 # clearing out some of the bottom values
 
@@ -73,5 +75,6 @@ filter(inmetro == 1) %>%
 filter(percbelowpoverty > 12.5)
 
 ggplot(j2) +
-geom_point(aes(popdensity, percbelowpoverty, color=percollege))
+geom_point(aes(popdensity, percbelowpoverty, color=percollege)) +
+ggtitle("density v poverty %\ncatagorized by college")
 # now we can see the percentage below poverty, really isn't impacted by population density or percentage that attended college
