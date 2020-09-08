@@ -18,12 +18,13 @@ options(ggplot2.continuous.fill = "viridis")
 #endregion
 midwest
 
+# 1 Jake
+#region
+
 # lets first look to see if there is any realtionship between adults and poverity
 # poppovertyknown <int>
 # popadults <int>
 # percollege <dbl>
-
-# 1 Jake
 
 ggplot(midwest) +
 geom_point(mapping=aes(popadults, poppovertyknown, color=percollege)) +
@@ -48,10 +49,10 @@ geom_smooth(mapping=aes(popadults, poppovertyknown)) +
 ggtitle("Pop Density w/ regression line")
 
 # This really brings us to the shocking conclusion that the more people exist in a place the higher amount of poverty as well.
+#endregion
 
 # 2 Jake
-
-
+#region
 ggplot(midwest) +
 geom_point(aes(popdensity, percbelowpoverty)) + 
 ggtitle("Orginal")
@@ -78,3 +79,5 @@ ggplot(j2) +
 geom_point(aes(popdensity, percbelowpoverty, color=percollege)) +
 ggtitle("density v poverty %\ncatagorized by college")
 # now we can see the percentage below poverty, really isn't impacted by population density or percentage that attended college
+#endregion
+
