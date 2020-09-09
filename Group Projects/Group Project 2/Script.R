@@ -88,6 +88,12 @@ filter(percbelowpoverty > 12.5)
 ggplot(j2) +
 geom_point(aes(popdensity, percbelowpoverty, color=percollege)) +
 ggtitle("density v poverty %\ncatagorized by college")
+
+ggplot(j2) +
+geom_point(aes(popdensity, percbelowpoverty, color=percollege)) +
+geom_smooth(aes(popdensity, percbelowpoverty)) +
+ggtitle("density v poverty %\ncatagorized by college")
+
 # now we can see the percentage below poverty, really isn't impacted by population density or percentage that attended college
 #endregion
 
