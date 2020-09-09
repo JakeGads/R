@@ -104,4 +104,5 @@ c <- mutate(midwest, totperc_popother = percblack + percamerindan + percasian + 
 ggplot(data=c) + geom_point(mapping=aes(x = state, y = totperc_popother,color = percbelowpoverty))
 
 c1 <- filter(c, state == "WI", totperc_popother >= 75) 
+
 #endregion 
