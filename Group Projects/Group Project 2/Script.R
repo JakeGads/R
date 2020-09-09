@@ -120,4 +120,17 @@ c4 <- select(c3, contains("poverty") & -"poppovertyknown")
 arrange(c4, average_perc_poverty)
 #endregion
 
+# Anthony 1
+#region
+a<-midwest %>% select(county, state, percwhite, percblack, percamerindan, percasian, percother, percbelowpoverty, inmetro) %>% filter(percbelowpoverty < 40) 
 
+ggplot(data = a) + geom_point(mapping=aes(x=percwhite, y=percbelowpoverty, color = inmetro)) 
+
+ggplot(data = a) + geom_point(mapping=aes(x=percblack, y=percbelowpoverty, color = inmetro))
+
+ggplot(data = a) + geom_point(mapping=aes(x=percamerindan, y=percbelowpoverty, color = inmetro))
+
+ggplot(data = a) + geom_point(mapping=aes(x=percasian, y=percbelowpoverty, color = inmetro))
+
+ggplot(data = a) + geom_point(mapping=aes(x=percother, y=percbelowpoverty, color = inmetro))
+#endregion
