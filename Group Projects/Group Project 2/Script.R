@@ -104,5 +104,21 @@ c <- mutate(midwest, totperc_popother = percblack + percamerindan + percasian + 
 ggplot(data=c) + geom_point(mapping=aes(x = state, y = totperc_popother,color = percbelowpoverty))
 
 c1 <- filter(c, state == "WI", totperc_popother >= 75) 
-
+<<<<<<< HEAD
 #endregion 
+=======
+#endregion
+
+# Cole 2
+#region
+ggplot(data = midwest) + geom_point(mapping = aes(x = percollege, y = percadultpoverty, color = inmetro))
+ggplot(data = midwest) + geom_point(mapping = aes(x = percollege, y = percchildbelowpovert, color = inmetro))
+ggplot(data = midwest) + geom_point(mapping = aes(x = percollege, y = percelderlypoverty, color = inmetro))
+
+c3 <- mutate(midwest, average_perc_poverty = (percadultpoverty + percchildbelowpovert + percelderlypoverty) / 3)
+ggplot(data = c3) + geom_point(mapping = aes(x = percollege, y = average_perc_poverty, color = inmetro))
+
+c4 <- select(c3, contains("poverty") & -"poppovertyknown")
+arrange(c4, average_perc_poverty)
+#endregion
+>>>>>>> 286197b1353f9d19b8167ad6cd17a00ab1b4fb9c
