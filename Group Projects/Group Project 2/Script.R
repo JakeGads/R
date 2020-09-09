@@ -1,8 +1,8 @@
 # install.packages("tidyverse")
 library(tidyverse)
 
-#region 
 # Making it color blind friendly
+#region 
 
 # uncomment as needed
 # install.packages("viridis")
@@ -39,14 +39,24 @@ filter(popadults >= 1e+6) %>%
 arrange(desc(popdensity)) %>%
 select(popdensity)
 
-ggplot(midwest) +
+j1 <- midwest %>%
+filter(popadults <= 1e+6)
+
+
+ggplot(j1) +
 geom_point(mapping=aes(popadults, poppovertyknown, color=popdensity)) +
 ggtitle("Pop Density")
+
+ggplot(j1) +
+geom_point(mapping=aes(popadults, poppovertyknown, color=popdensity)) +
+geom_smooth(mapping=aes(popadults, poppovertyknown)) +
+ggtitle("Pop Density w/ regression line")
 
 ggplot(midwest) +
 geom_point(mapping=aes(popadults, poppovertyknown, color=popdensity)) +
 geom_smooth(mapping=aes(popadults, poppovertyknown)) +
 ggtitle("Pop Density w/ regression line")
+
 
 # This really brings us to the shocking conclusion that the more people exist in a place the higher amount of poverty as well.
 #endregion
@@ -55,7 +65,7 @@ ggtitle("Pop Density w/ regression line")
 #region
 ggplot(midwest) +
 geom_point(aes(popdensity, percbelowpoverty)) + 
-ggtitle("Orginal")
+ggtitle("Orginal\npopulation density vs percentage below poverty")
 
 ggplot(midwest) +
 geom_point(aes(popdensity, percbelowpoverty, color=inmetro == 1))
@@ -63,7 +73,7 @@ geom_point(aes(popdensity, percbelowpoverty, color=inmetro == 1))
 # Take note of really high non metro ones
 
 j2 <- midwest %>%
-filter(inmetro == 1)
+filter(inmetro != 1)
 
 ggplot(j2) +
 geom_point(aes(popdensity, percbelowpoverty, color=poppovertyknown)) +
@@ -72,7 +82,7 @@ ggtitle("Trimed DataSet")
 # clearing out some of the bottom values
 
 j2 <- midwest %>%
-filter(inmetro == 1) %>%
+filter(inmetro != 1) %>%
 filter(percbelowpoverty > 12.5)
 
 ggplot(j2) +
@@ -81,3 +91,11 @@ ggtitle("density v poverty %\ncatagorized by college")
 # now we can see the percentage below poverty, really isn't impacted by population density or percentage that attended college
 #endregion
 
+# Cole 1
+#region
+c <- mutate(midwest, totperc_popother = percblack + percamerindan + percasian + percother)
+
+ggplot(data=c) + geom_point(mapping=aes(x = state, y = totperc_popother,color = percbelowpoverty))
+
+c1 <- filter(c, state == "WI", totperc_popother >= 75) 
+#endregion
