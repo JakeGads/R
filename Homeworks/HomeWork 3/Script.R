@@ -84,4 +84,4 @@ presidential %>%
     scale_colour_manual(values = c(Republican = "red", Democratic = "blue"))
 
 
-parse_number("100.300.45", locale=locale(decimal_mark=".", grouping_mark="."))
+parse_number("100.300.45", locale=locale(decimal_mark=","))
