@@ -85,3 +85,18 @@ presidential %>%
 
 
 parse_number("100.300.45", locale=locale(decimal_mark=","))
+
+
+presidential %>%
+  mutate(id = 33 + row_number()) %>%
+  ggplot(aes(start, id, colour = party)) +
+    geom_point() +
+    geom_segment(aes(xend = end, yend = id)) +
+    geom_text(aes(x = start, y = id, label=name), position = position_nudge(y = 0.3)) + 
+    scale_x_date(NULL, breaks = presidential$start, date_labels = "'%y") + 
+    scale_colour_manual(values = c(Republican = "red", Democratic = "blue")) +
+    scale_y_continuous(breaks=seq(33, 44)) +
+    labs(
+      title="Years in office as Presdident",
+      y = "President Number"
+    )

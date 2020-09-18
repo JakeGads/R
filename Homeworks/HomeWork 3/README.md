@@ -135,6 +135,27 @@ presidential %>%
 
 ### 2. Improving the display of the y axis.
 
+```R
+presidential %>%
+  mutate(id = 33 + row_number()) %>%
+  ggplot(aes(start, id, colour = party)) +
+    geom_point() +
+    geom_segment(aes(xend = end, yend = id)) +
+    geom_text(aes(x = start, y = id, label=name), position = position_nudge(y = 0.3)) + 
+    scale_x_date(NULL, breaks = presidential$start, date_labels = "'%y") + 
+    scale_colour_manual(values = c(Republican = "red", Democratic = "blue")) +
+    scale_y_continuous(breaks=seq(33, 44)) +
+    labs(
+      title="Years in office as Presdident",
+      y = "President Number"
+    )
+```
+
+![alt text](PRES5.png "Original Graph")
+
+
+    Note I technically did this one last because I was confused by the wording
+
 ### 3 Labelling each term with the name of the president.
 
 ```R
@@ -151,6 +172,7 @@ presidential %>%
 ![alt text](pres_4.png "Original Graph")
 
 <div style="page-break-after: always"></div>
+
 
 #
 # Section 11.2.2: 
