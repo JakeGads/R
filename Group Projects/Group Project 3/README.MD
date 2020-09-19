@@ -12,6 +12,8 @@ mw9147
 
 ## Drivers
 
+### Original
+
 ```R
 [1] "State"           
 [2] "Number of drivers involved in fatal collisions per billion miles"                                      
@@ -23,7 +25,18 @@ mw9147
 [8] "Losses incurred by insurance companies for collisions per insured driver ($)"
 ```
 
+### Tweaked
+
+```R
+[1] "state"                               "num_drivers_in_fatal_per_billion"   
+[3] "per_speeding"                        "per_alcohol"                        
+[5] "per_not_distracted"                  "per_not_invlolved_previous"         
+[7] "car_insurances_cost"                 "insurance_company_losses_per_driver"
+```
+
 ## States
+
+### Original
 
 ```R
 [1] "State"
@@ -33,3 +46,12 @@ mw9147
 [5] "Land Area in Square Miles 2010"
 [6] "Population per Square Mile"
 ```
+
+### Tweaked
+```R
+[1] "state"               "pop_18"              "travel_time"        
+[4] "income"              "area"                "pop_per_square_mile"
+[7] "error_catch" 
+```
+
+Note the addition of the 7th header `error_catch` R was really not a fan of the trailing `,` so we make it and then just drop in
