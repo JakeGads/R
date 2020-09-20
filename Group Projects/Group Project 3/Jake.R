@@ -33,7 +33,7 @@ drivers <- read_csv(
         "per_not_distracted",
         "per_not_invlolved_previous",
         "car_insurances_cost",
-        "insurance_company_losses_per_driver",
+        "insurance_company_losses_per_driver"
     ),
     skip=1
 )
@@ -51,12 +51,14 @@ states <- read_csv(
     ),
     skip=1
  ) %>%
- select(-error_catch)
-
-states <- states %>%
 select(-error_catch)
 
 
+megastate <- merge(drivers, states, by="state") %>% # combines drivers & states
+subset(pop_18 != NA & num_drivers_in_fatal_per_billion != NA) # drops columns that lack the overlap
+
 colnames(airlines)
 colnames(drivers)
- 
+colnames(states) 
+colnames(megastate)
+
