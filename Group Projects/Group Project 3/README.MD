@@ -1,5 +1,28 @@
 mw9147
 
+# Carl's Instructions
+
+## Block 3 Group Project Details:
+
+Data Set: For this project, you'll use the `"Airlines"`, `"Drivers"`, and `"States"` datasets found in the folder below.
+
+### Requirements: 
+
+For this project, you will focus on the entire workflow from data in an external csv, through data analysis/transformation, to a nice presentation-quality figure.
+
+For EACH of the THREE datasets, you will need to do the following:
+
+- Load the data into R from the given csv file. In this step, you must make sure every column of data is appropriately labeled and has the correct data type associated. This must be done every column, even if you do not plan on using a specific column for your subsequent analysis.
+- Find TWO interesting observations. For each of these observations, you will need to submit code/analysis containing at least:
+  - An initial figure, constructed with ggplot and using at least two geometries/facets/coordinates, from the untransformed dataset. In this figure, you should be able to see/describe/analyze some "interesting behavior" that you argue is worth further investigation.
+  - An extensive transformation of the dataset, using at least two transformations (at least one of which is not 'select' or 'arrange') to focus on the identified "interesting behavior". This must use "the pipe" method of nesting operations.
+  - A follow-up figure, again using at least two relevant geometries/facets/coordinates, that digs further into the "interesting behavior" and sheds some new light that you explain in your analysis. This figure should also make use of additional aesthetics as appropriate and must have meaningful/informative titles, labels, annotations, scales, zooms, etc. (the ideas of chapter 28).
+
+    
+Please include discussions of any "dead ends" you might find during your analysis as well as explanations for why you chose the particular transformations and plotting used.
+
+Finally, you should feel free to go "outside" the dataset and use sources like Wikipedia, <b> your friend Steve that knows weird stuff </b>, or generally the whole (school appropriate part) of the internet, if you feel that they help to explain your neat thing.
+
 # Col Names
 
 ## Airline
