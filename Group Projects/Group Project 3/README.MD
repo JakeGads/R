@@ -1,5 +1,3 @@
-mw9147
-
 # Carl's Instructions
 
 ## Block 3 Group Project Details:
