@@ -77,4 +77,6 @@ Finally, you should feel free to go "outside" the dataset and use sources like W
 [7] "error_catch" 
 ```
 
-Note the addition of the 7th header `error_catch` R was really not a fan of the trailing `,` so we make it and then just drop in
+Note the addition of the 7th header `error_catch` R was really not a fan of the trailing `,` so we make it and then just drop in.
+
+I also noticed a similar column called states between two of the data sets so I called the `merge(by='states')` and it combined them into one dataset
