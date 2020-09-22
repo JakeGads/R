@@ -163,7 +163,7 @@ ggplot(data = states, mapping=aes(travel_time)) +
 geom_histogram(aes(color=income))
 
 states_2_a <- states %>%
-mutate(average_income=income %/% 100)
+mutate(average_income=income %/% 1000)
 
 states_2_a %>%
 select(average_income)
@@ -175,7 +175,7 @@ geom_smooth()
 # lets try and find who is making those fate stacks with a 30 min communite
 # abd those tgat gave like no travel time
 states_2_b <- states_2_a %>%
-filter(average_income > 500)
+filter(average_income >= 50)
 
 states_2_b %>%
 select(state,average_income)
