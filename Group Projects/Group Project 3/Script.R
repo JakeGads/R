@@ -1,7 +1,6 @@
 # install.packages("tidyverse")
 library(tidyverse)
 
-# Making it color blind friendly
 setwd('~/source/repo/R/Group Projects/Group Project 3') # For Jake
 
 getwd() # for error checking
@@ -61,6 +60,12 @@ colnames(megastate)
 
 # total_fatalites X total_incidents
 
+A<-read_csv("airlines.csv")
+
+B<-A %>%  mutate(total_fatal_accidents = fatal_accidents_85_99 + fatal_accidents_00_14) %>%  mutate(total_fatalities = fatalities_85_99 + fatalities_00_14)
+
+ggplot(data=B) + geom_count(mapping= aes(x=incidents_85_99, y= fatalities_85_99)) + labs(title = "Fatalities vs. Incidents", subtitle = "The fatalities of airline vs. the number of incidents", x= "Airline incidents", y="Airline fatalities")
+
 #endregion
 
 #region Airlines 2 (Cam)
@@ -72,6 +77,27 @@ colnames(megastate)
 #region Drivers 2 (Moses)
 
 # Districted x per_not_distracted
+
+C<-read_csv("drivers.csv")
+
+P <- read_csv(
+    "drivers.csv",
+    col_names =  c(
+        "state", 
+        "num_drivers_in_fatal_per_billion", 
+        "Per_speeding",
+        "Per_alcohol",
+        "Per_not_distracted",
+        "per_not_invlolved_previous",
+        "car_insurances_cost",
+        "insurance_company_losses_per_driver"
+    ),
+    skip=1
+)
+
+T <- P %>% mutate(Total_distracted = Per_speeding + Per_alcohol, Per_not_distracted)
+
+ggplot(data= T) + geom_point(mapping = aes(x= Per_not_distracted, y= Total_distracted))
 
 #endregion
 
@@ -154,7 +180,6 @@ theme(
 
 #endregion
 
-
 #region States 2 (Jake)
 
 # Travel_time vs income
@@ -172,7 +197,7 @@ ggplot(data = states_2_a, mapping=aes(travel_time, average_income)) +
 geom_jitter(aes(color=pop_per_square_mile)) +
 geom_smooth()
 
-# lets try and find who is making those fate stacks with a 30 min communite
+# lets try and find who is making those fat stacks with a 30 min communite
 # abd those tgat gave like no travel time
 states_2_b <- states_2_a %>%
 filter(average_income >= 50)
@@ -216,7 +241,7 @@ theme(
 )
 
 # so I asked my cousin again and she just said that large money from dc is senetors which is like disgusting
-# and I guess if you live in North Dakota, South Dakota, or Montana your live is sad enough without a commute
+# and I guess if you live in North Dakota, South Dakota, or Montana your live is sad enough without a commute I don't have any cousins who live there
 
 
 #endregion
