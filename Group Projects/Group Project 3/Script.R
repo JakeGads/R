@@ -2,21 +2,6 @@
 library(tidyverse)
 
 # Making it color blind friendly
-#region 
-
-# uncomment as needed
-# install.packages("viridis")
-# install.packages("scales")
-
-library(viridis)
-library(scales)
-
-theme_set(theme_minimal())
-
-options(ggplot2.continuous.colour="viridis")
-options(ggplot2.continuous.fill = "viridis")
-#endregion
-
 setwd('~/source/repo/R/Group Projects/Group Project 3') # For Jake
 
 getwd() # for error checking
@@ -80,16 +65,6 @@ colnames(megastate)
 
 #endregion
 
-#region Drivers 1 (Jake)
-
-# "num_drivers_in_fatal_per_billion" x "insurance_company_losses_per_driver"
-
-ggplot(data = drivers, aes(num_drivers_in_fatal_per_billion, insurance_company_losses_per_driver)) +
-geom_point()
-
-#endregion
-
-
 #region Drivers 2 (Moses)
 
 # Districted x per_not_distracted
@@ -101,6 +76,80 @@ geom_point()
 # pop_per_square_mile x income
 
 #endregion
+
+#region Color Correction
+
+# uncomment as needed
+# install.packages("viridis")
+# install.packages("scales")
+
+library(viridis)
+library(scales)
+
+theme_set(theme_minimal())
+
+options(ggplot2.continuous.colour="viridis")
+options(ggplot2.continuous.fill = "viridis")
+#endregion
+
+#region Drivers 1 (Jake)
+
+# "num_drivers_in_fatal_per_billion" x "insurance_company_losses_per_driver"
+
+# lets start by taking a look 
+
+ggplot(data = drivers, aes(num_drivers_in_fatal_per_billion, insurance_company_losses_per_driver)) +
+geom_point(mapping=aes(color=car_insurances_cost))
+
+# we will trim down a little bit 
+drivers_1_a <- drivers %>%
+filter(car_insurances_cost > 900)
+
+ggplot(data = drivers_1_a, aes(num_drivers_in_fatal_per_billion, insurance_company_losses_per_driver)) +
+geom_point(mapping=aes(color=car_insurances_cost)) +
+geom_smooth()
+
+# now lets take the time to find out what states have the highestest > 1250
+
+drivers_1_b <- drivers_1_a %>%
+filter(car_insurances_cost > 1250)
+
+ggplot(data = drivers_1_a, aes(num_drivers_in_fatal_per_billion, insurance_company_losses_per_driver)) +
+geom_point(mapping=aes(color=car_insurances_cost)) +
+geom_smooth() +
+geom_text(aes(label = state), data = drivers_1_b, nudge_y = 2, nudge_x = 2)
+
+
+# makeing her pretty
+ggplot(data = drivers_1_a, aes(num_drivers_in_fatal_per_billion, insurance_company_losses_per_driver)) +
+geom_point(mapping=aes(color=car_insurances_cost)) +
+geom_smooth() + 
+geom_label(
+    data = drivers_1_b, 
+    mapping=aes(label=state),
+    alpha = .5,
+    nudge_y = 2.5,
+    nudge_x = 1.5
+) +
+labs(
+    title = "Drivers in Fatal Accidents (Per Billion) vs Insurances Company Costs",
+    subtitle = "colored by Insurance Cost",
+    caption = "Label denotes the highest costs",
+    x="Drivers in Fatal Accidents (Per Billion)",
+    y="Insurances Company Costs",
+    color="Insurance Cost"
+) +
+theme(
+    legend.position = "top"
+)
+
+# so the question is, why is DC so expensive, I asked my cousin (who lived there for like 6 years) and she told me it boils down to 2 primary reasons
+# one the entire "state" (its not a state technically) is just a single city which comes with increased prices and
+# two there isn't really that much driving, its a metro (and yes trains this time @moses) city, becuase there are not a lot of native drivers they increase the prices of insurance
+# three as a side not DC does sometimes have like horiffic crime rates but they flux so often and there isn't years in the data set so I can't confirm
+
+#endregion
+
 
 #region States 2 (Jake)
 
