@@ -40,9 +40,13 @@ states <- read_csv(
         "pop_per_square_mile",
         "error_catch"
     ),
+    col_types=cols(
+        income=col_number()
+    ),
     skip=1
  ) %>%
 select(-error_catch)
+
 
 
 megastate <- merge(drivers, states, by="state")
@@ -154,5 +158,65 @@ theme(
 #region States 2 (Jake)
 
 # Travel_time vs income
+
+ggplot(data = states, mapping=aes(travel_time)) +
+geom_histogram(aes(color=income))
+
+states_2_a <- states %>%
+mutate(average_income=income %/% 100)
+
+states_2_a %>%
+select(average_income)
+
+ggplot(data = states_2_a, mapping=aes(travel_time, average_income)) +
+geom_jitter(aes(color=pop_per_square_mile)) +
+geom_smooth()
+
+# lets try and find who is making those fate stacks with a 30 min communite
+# abd those tgat gave like no travel time
+states_2_b <- states_2_a %>%
+filter(average_income > 500)
+
+states_2_b %>%
+select(state,average_income)
+
+states_2_c <- states_2_a %>%
+filter(travel_time < 18)
+
+states_2_c %>%
+select(state, travel_time)
+
+ggplot(data = states_2_a, mapping=aes(travel_time, average_income)) +
+geom_jitter(aes(color=pop_per_square_mile)) +
+geom_smooth() +
+geom_label(
+    data = states_2_b, 
+    mapping=aes(label=state),
+    alpha = .5,
+    nudge_y = 2.5,
+    nudge_x = -3
+) +
+geom_label(
+    data = states_2_c, 
+    mapping=aes(label=state),
+    alpha = .5,
+    nudge_y = -2.5,
+    nudge_x = 2
+) +
+labs(
+    title = "Commute Time vs Average Income",
+    subtitle = "colored by population",
+    caption = "Labels denote short commute / highest earning potential \n\nSouth Dakota Overlaps Montana",
+    x="Commute Time",
+    y="Insurances Company Costs",
+    color="Average Income"
+) +
+theme(
+    legend.position = "bottom"
+)
+
+# so I asked my cousin again and she just said that large money from dc is senetors which is like disgusting
+# and I guess if you live in North Dakota, South Dakota, or Montana your live is sad enough without a commute
+
 
 #endregion
