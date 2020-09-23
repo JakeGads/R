@@ -75,6 +75,14 @@ ggplot(data=G) + geom_count(mapping= aes(x=incidents_85_99, y= fatalities_85_99)
 
 # something that changes per year
 
+ggplot(data = airlines) + geom_point(mapping = aes(x = airline, y = incidents_00_14, color = airline)) + labs(x = "Airline", y = "Incidents in Recent Years", title = "Incidents for Various Airlines")
+
+
+airlinesComparison <- mutate(airlines, difference = incidents_85_99 - incidents_00_14)
+
+
+ggplot(data = select(airlinesComparison, airline, difference)) + geom_point(mapping = aes(x = airline, y = difference, color = airline)) + labs(y = "Improvement in Incidents", title = "Improvement in Occurences of Incidents") + scale_y_continuous(breaks = seq(-15, 75, 5))
+
 #endregion
 
 #region Drivers 2 (Moses)
@@ -123,6 +131,19 @@ ggplot(data= P) + geom_point(mapping = aes(x= Most_reckless, y= Total_distracted
 #region States 1 (Cam)
 
 # pop_per_square_mile x income
+
+states <- read_csv("states.csv", col_names = c("state", "pop_18", "travel_time", "income", "area", "pop_per_square_mile", "error_catch"), col_types = cols(income = col_number()), skip = 1) %>%
+select(-error_catch)
+
+
+
+ggplot(data = states) + geom_point(mapping = aes(x = pop_per_square_mile, y = income, color = state)) + labs(x = "Population per Square Mile", y = "Per Capita Income", title = "Population Density v. Per Capita Income")
+
+
+statesOnly <- filter(states, state != "District of Columbia", state != "Puerto Rico")
+
+
+ggplot(data = select(statesOnly, state, income, pop_per_square_mile)) + geom_point(mapping = aes(x = pop_per_square_mile, y = income, color = state)) + labs(x = "Population per Square Mile", y = "Per Capita Income", title = "Population Density v. Per Capita Income")
 
 #endregion
 
