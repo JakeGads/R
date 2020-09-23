@@ -66,6 +66,9 @@ B<-A %>%  mutate(total_fatal_accidents = fatal_accidents_85_99 + fatal_accidents
 
 ggplot(data=B) + geom_count(mapping= aes(x=incidents_85_99, y= fatalities_85_99)) + labs(title = "Fatalities vs. Incidents", subtitle = "The fatalities of airline vs. the number of incidents", x= "Airline incidents", y="Airline fatalities")
 
+G <-  B %>% filter( 0 < incidents_85_99) %>% filter(400 <fatalities_85_99)
+
+ggplot(data=G) + geom_count(mapping= aes(x=incidents_85_99, y= fatalities_85_99)) + labs(title = "Fatalities vs. Incidents", subtitle = "The fatalities of airline vs. the number of incidents", x= "Airline incidents", y="Airline fatalities")
 #endregion
 
 #region Airlines 2 (Cam)
@@ -77,8 +80,6 @@ ggplot(data=B) + geom_count(mapping= aes(x=incidents_85_99, y= fatalities_85_99)
 #region Drivers 2 (Moses)
 
 # Districted x per_not_distracted
-
-C<-read_csv("drivers.csv")
 
 P <- read_csv(
     "drivers.csv",
@@ -98,6 +99,24 @@ P <- read_csv(
 T <- P %>% mutate(Total_distracted = Per_speeding + Per_alcohol, Per_not_distracted)
 
 ggplot(data= T) + geom_point(mapping = aes(x= Per_not_distracted, y= Total_distracted))
+
+R <- T %>% mutate(Most_reckless = Total_distracted/Per_not_distracted)
+
+ggplot(data= R) + geom_point(mapping = aes(x= Most_reckless, y= Total_distracted))
+
+# Made looked at the data and saw an outlier. Then realized that my I was showing the data wrong of what I wanted. After doing the correct mutation, I saw that there was a particular outlier, Wisconsin.
+
+R <- T %>% mutate(Most_reckless = Total_distracted-Per_not_distracted)
+
+# Correct code. 
+
+ggplot(data= R) + geom_point(mapping = aes(x= Most_reckless, y= Total_distracted))
+
+P <-R %>% filter( 0 < Most_reckless)
+
+ggplot(data= P) + geom_point(mapping = aes(x= Most_reckless, y= Total_distracted))
+
+# This shows the top 3
 
 #endregion
 
