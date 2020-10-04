@@ -1,0 +1,14 @@
+Descriptions
+
+
+Basic Water Access - the percentage of people using at least basic water services. This indicator encompasses both people using basic water services as well as those using safely managed water services. Basic drinking water services is defined as drinking water from an improved source, provided collection time is not more than 30 minutes for a round trip. Improved water sources include piped water, boreholes or tube wells, protected dug wells, protected springs, and packaged or delivered water.
+
+Energy Production - all forms of primary energy — petroleum (crude oil, natural gas liquids, and oil from nonconventional sources), natural gas, solid fuels (coal, lignite, and other derived fuels), and combustible renewables and waste — and primary electricity. All converted into equivalent tonnes of oil (toe).
+
+Income - the gross domestic product per capita, adjusted for differences in purchasing power.
+
+Life Expectancy - the average number of years a newborn child would live if current mortality patterns were to stay the same.
+
+Literacy Rate - the percentage of people ages 15 and above who can, with understanding, read and write a short, simple statement on their everyday life.
+
+Under 5 Population - the total number of children, aged 0 to 4 years old.

@@ -74,3 +74,4 @@ head(5)
 
 right_join(flights, top_dest)
 left_join(top_dest, flights, by=c("dest"="origin"))
+right_join(top_dest, flights, by=c("dest"="origin"))
