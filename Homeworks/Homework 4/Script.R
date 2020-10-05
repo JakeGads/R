@@ -1,3 +1,5 @@
+install.packages('tidyverse')
+install.packages('nycflights13')
 suppressPackageStartupMessages(library("tidyverse"))
 
 stocks <- tibble(
@@ -45,3 +47,17 @@ borders("state") +
 geom_point(mapping=aes(color=avg_delay)) +
 coord_quickmap()
 
+a <- planes %>%
+filter(year > 1980)
+
+flights %>%
+mutate(tot_delay = arr_delay + dep_delay) %>%
+group_by(tailnum) %>%
+summarize(avg_delay = mean(tot_delay, na.rm = TRUE)) %>%
+left_join(select(a, tailnum, year, type), c("tailnum" = "tailnum")) %>%
+ggplot(aes(year, avg_delay)) +
+geom_point() +
+geom_smooth()
+
+flights %>%
+summarize(total_flights = count(tailnum))
