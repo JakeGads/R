@@ -8,3 +8,12 @@ colnames(energy)
 
 income <- read_csv("Data/income.csv")
 colnames(income)
+
+life <- read_csv("Data/life_expectancy.csv")
+colnames(life)
+
+literacy <- read_csv("Data/literacy_rate.csv")
+colnames(literacy)
+
+pop <- read_csv("Data/under_5_population.csv")
+colnames(literacy)
