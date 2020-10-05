@@ -60,4 +60,4 @@ geom_point() +
 geom_smooth()
 
 flights %>%
-summarize(total_flights = count(tailnum))
+mutate(total_flights = unique(tail_num))
