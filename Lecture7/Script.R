@@ -36,6 +36,8 @@ pivot_longer(
     values_to="cases"
 )
 
+a
+
 table4b
 
 b <- table4b %>%

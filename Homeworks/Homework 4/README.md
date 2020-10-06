@@ -140,10 +140,36 @@ flights %>%
 
 ![](Images/4.png)
 
-You might want to use the `size` or `colour` of the points to display the average delay for each airport.
-
 ## 3 Is there a relationship between the age of a plane and its delays?
+
+``` R
+flights %>%
+mutate(tot_delay = arr_delay + dep_delay) %>%
+group_by(tailnum) %>%
+summarize(avg_delay = mean(tot_delay, na.rm = TRUE)) %>%
+left_join(select(planes, tailnum, year, type), c("tailnum" = "tailnum")) %>%
+ggplot(aes(year, avg_delay)) +
+geom_point() +
+geom_smooth()
+```
+
+this will generate a graph which we can use then look to see if there is a trend. in short there is not, however it reaches really far back so maybe we trim it a little like this
+
+``` R
+a <- planes %>%
+filter(year > 1980)
+```
+
+However it doesn't have a significant impact on the data
 
 # Section 13.5.1: 
 
 ## 2 Filter flights to only show flights with planes that have flown at least 100 flights.
+
+```R
+flights %>%
+filter(!is.na(tailnum)) %>%
+group_by(tailnum) %>%
+count() %>%
+filter(n >= 100)
+```
