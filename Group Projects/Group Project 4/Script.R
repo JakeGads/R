@@ -109,10 +109,15 @@ theme(
 #region 2
 
 j2 <- income %>%
+group_by(country) %>%
+summarize(avg_income_ = mean(avg_income)) %>%
 inner_join(energy) %>%
 inner_join(water) %>%
 na.omit(energy) %>%
-na.omit(per_water_usage)
+na.omit(per_water_usage) %>%
+group_by(country)
+
+j2
 
 j2 %>%
 ggplot(aes(energy, per_water_usage, color=avg_income)) +
