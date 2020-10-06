@@ -50,10 +50,73 @@ pivot_longer(
 )
 colnames(pop)
 
-# we must always left_join the smaller dataset with the larger one
+# we must always <some_kind>_join the smaller dataset with the larger one
 
-life %>%
+#region Jake
+#region 1
+
+library(viridis)
+library(scales)
+
+theme_set(theme_minimal())
+
+options(ggplot2.continuous.colour="viridis")
+options(ggplot2.continuous.fill = "viridis")
+
+
+j1 <- life %>%
 inner_join(literacy) %>%
+inner_join(pop) %>%
 na.omit(lit_rate) %>%
-group_by(country) %>%
-sumarize(avg_life_expectancy )
+na.omit(population)
+
+j1 %>%
+ggplot(mapping=aes(life_expectancy, lit_rate, color=population)) +
+geom_point() +
+geom_smooth(se=FALSE)
+
+j1 %>%
+ggplot(mapping=aes(life_expectancy, lit_rate, color=population)) +
+geom_point() +
+geom_smooth(se=FALSE) + 
+facet_wrap(~year)
+
+j1 %>%
+filter(population < 10**7) %>%
+ggplot(mapping=aes(life_expectancy, lit_rate, color=population)) +
+geom_point() +
+geom_smooth(se=FALSE) + 
+facet_wrap(~year)
+
+j1 %>%
+filter(population < 10**7) %>%
+ggplot(mapping=aes(life_expectancy, lit_rate, color=population)) +
+geom_point() +
+geom_smooth(se=FALSE) + 
+facet_wrap(~year) +
+labs(
+    title = "Life Expectancy vs Literarcy Rate",
+    subtitle = "colored by population\nwrapped by year",
+    x="Life Expectancy",
+    y="Literacy Rate",
+    color="Population"
+) +
+theme(
+    legend.position = "left"
+)
+#endregion
+
+#region 2
+
+j2 <- income %>%
+inner_join(energy) %>%
+inner_join(water) %>%
+na.omit(energy) %>%
+na.omit(per_water_usage)
+
+j2 %>%
+ggplot(aes(energy, per_water_usage, color=avg_income)) +
+geom_point()
+
+#endregion
+#endregion
