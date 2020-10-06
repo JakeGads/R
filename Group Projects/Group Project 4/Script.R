@@ -116,13 +116,7 @@ inner_join(energy) %>%
 inner_join(water) %>%
 na.omit(energy) %>%
 na.omit(per_water_usage) %>%
-<<<<<<< HEAD
-group_by(country)
-
-j2
-=======
 na.omit(avg_income)
->>>>>>> c4de208458406d401d94bff887660ef5234450fa
 
 j2 %>%
 ggplot(aes(energy, per_water_usage, color=avg_income)) +
