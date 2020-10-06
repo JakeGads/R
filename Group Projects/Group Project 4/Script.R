@@ -1,5 +1,6 @@
 setwd('~/source/repo/R/Group Projects/Group Project 4')
 # install.packages("tidyverse")
+# install.packages(c("viridis"))
 library(tidyverse)
 
 water <- read_csv('Data/basic_water_access.csv') %>%
@@ -115,13 +116,34 @@ inner_join(energy) %>%
 inner_join(water) %>%
 na.omit(energy) %>%
 na.omit(per_water_usage) %>%
+<<<<<<< HEAD
 group_by(country)
 
 j2
+=======
+na.omit(avg_income)
+>>>>>>> c4de208458406d401d94bff887660ef5234450fa
 
 j2 %>%
 ggplot(aes(energy, per_water_usage, color=avg_income)) +
 geom_point()
+
+
+j2 <-j2 %>%
+group_by(country) %>%
+#                                                                       Reminder add that extra _
+summarize(avg_energy = mean(energy), avg_water = mean(per_water_usage), avg_income_  = mean(avg_income))
+
+j2 %>%
+ggplot(aes(avg_energy, avg_water, color=avg_income_)) +
+geom_point()
+
+j2 %>%
+filter(avg_energy < 1000000) %>%
+ggplot(aes(avg_energy, avg_water, color=avg_income_)) +
+geom_point() +
+facet_wrap(~country)
+# now I want to clear out some 
 
 #endregion
 #endregion
