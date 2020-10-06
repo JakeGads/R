@@ -1,5 +1,5 @@
 setwd('~/source/repo/R/Group Projects/Group Project 4')
-install.packages("tidyverse")
+# install.packages("tidyverse")
 library(tidyverse)
 
 water <- read_csv('Data/basic_water_access.csv') %>%
@@ -49,3 +49,11 @@ pivot_longer(
     values_to="population"
 )
 colnames(pop)
+
+# we must always left_join the smaller dataset with the larger one
+
+life %>%
+inner_join(literacy) %>%
+na.omit(lit_rate) %>%
+group_by(country) %>%
+sumarize(avg_life_expectancy )
