@@ -1,0 +1,6 @@
+library(tidyverse)
+library(viridis)
+library(scales)
+theme_set(theme_minimal())
+options(ggplot2.continuous.colour="viridis")
+options(ggplot2.continuous.fill = "viridis")

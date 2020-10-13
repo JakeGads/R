@@ -51,7 +51,7 @@ pivot_longer(
 )
 colnames(pop)
 
-#Andrew Chu
+#region Andrew Chu
 #code 1
 a1 <- water %>% inner_join(life) %>% inner_join(energy)
 
@@ -94,6 +94,7 @@ b1 <- filter(b1, life_expectancy < 35)
 
 ggplot(data = b1) + geom_point(mapping = aes(x = per_water_usage, y = life_expectancy, color = country))
 #Haiti is a massive outlyer with about a 33 year life expectancy.
+#endregion
 
 #region Leandro
 #region 1
@@ -120,7 +121,6 @@ ggplot(data=lp2A) + geom_point(mapping=aes(per_water_usage,life_expectancy,color
 #endregion
 
 #region Jake
-#region 1
 
 library(viridis)
 library(scales)
@@ -130,6 +130,7 @@ theme_set(theme_minimal())
 options(ggplot2.continuous.colour="viridis")
 options(ggplot2.continuous.fill = "viridis")
 
+#region 1
 
 j1 <- life %>%
 inner_join(literacy) %>%
