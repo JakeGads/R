@@ -64,7 +64,7 @@ generate_scatterplot <- function(x,y, c='None'){
     }
     else{
         graph <- jake_join(x,y) %>%
-        ggplot(mapping=aes(x,y)) + 
+        ggplot(mapping=aes_string(x,y)) + 
         geom_point() +
         labs(
             title=paste(x, 'vs', y, sep = " "),
@@ -77,8 +77,3 @@ generate_scatterplot <- function(x,y, c='None'){
 }
 
 generate_scatterplot("basic_water_access", "energy_production.csv", "income")
-
-joined <- jake_join("basic_water_access", "energy_production", "income")
-
-x <- "basic_water_access"
-joined[x]
