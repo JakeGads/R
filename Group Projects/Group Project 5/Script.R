@@ -1,5 +1,6 @@
 library(tidyverse)
 
+# takes the data and makes it a formated data
 clean_data <- function(csv_file) {
     # country, a bunch of years
     
@@ -18,6 +19,8 @@ clean_data <- function(csv_file) {
     return(gen_data)
 }
 
+
+# joins the data when accepted as a string
 jake_join <- function(x,y,z=FALSE){
     gen_data <- clean_data(x) %>%
     inner_join(clean_data(y)) %>%
@@ -34,6 +37,7 @@ jake_join <- function(x,y,z=FALSE){
     return(gen_data)
 }
 
+# removes csv from the string
 remove_csv <- function(file){
     if(grepl(".csv", file)){
         file <- str_split(file,".csv", 2)
@@ -42,6 +46,7 @@ remove_csv <- function(file){
     return(file)
 }
 
+# makes a scatterplot, either colored or uncolored
 generate_scatterplot <- function(x,y, c='None'){
     x <- remove_csv(x)
     y <- remove_csv(y)
