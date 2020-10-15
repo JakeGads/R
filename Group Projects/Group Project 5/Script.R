@@ -10,7 +10,8 @@ clean_data <- function(csv_file) {
         data <- read_csv(paste(csv_file, '.csv', sep = ""))
     }
     r <- colnames(data)
-    data %>%
+    
+    data <- data %>%
     pivot_longer(
         r[-1], 
         names_to="year", 
@@ -18,5 +19,23 @@ clean_data <- function(csv_file) {
     )
 }
 
-set <- "basic_water_access"
-clean_data(set)
+jake_join <- function(x,y,z=FALSE){
+    gen_data <- clean_data(x) %>%
+    inner_join(clean_data(y)) %>%
+    na.omit(x) %>%
+    na.omit(y)
+
+    if(z != FALSE){
+        gen_data <- gen_data %>%
+        inner_join(clean_data(z)) %>%
+        na.omit(z)
+    }
+    
+    gen_data
+}
+
+generate_scatterplot <- function(x,y, color='None'){
+
+}
+
+jake_join("basic_water_access", "energy_production.csv", "income")
