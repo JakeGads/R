@@ -12,7 +12,7 @@ info found on [stack_overflow](https://stackoverflow.com/questions/18507920/larg
 [1] 2147483647
 ```
 
-that means we have to double that number when accounting for the negatives
+that means we have to double that number when accounting for the negatives, there are no options to set `.Machine$integer.min` 
 
 #### Doubles 
 
@@ -21,25 +21,30 @@ that means we have to double that number when accounting for the negatives
 [1] 1.797693e+308
 ```
 
-again double that to account for negatives
+again double that to account for negatives. 
+There are no options to set `.Machine$double.min` or `.Machine$double.xmin` 
+<div style="page-break-after: always;"></div>
 
 ## Section 20.4.6: # 5 , 6
 
 ### 5. Why is x[-which(x > 0)] not the same as x[x <= 0]?
 
-the second will store everything wether it is true or not where as the first will drop all columns that came up as True
+the first checks to see if what is not > 0 so it just takes the inverse, so its two steps
+
+the seconds completes in one step
 
 ### 6. What happens when you subset with a positive integer that’s bigger than the length of the vector? What happens when you subset with a name that doesn’t exist?
 
 the rest of the data will fill with N/A's
 
 ```R
+
 > c(1,2,3)[2:5]
 [1] 2 3 NA NA
 ```
+<div style="page-break-after: always;"></div>
 
 ## Section 21.2.1: # 1 , 2
-
 ### 1.Write for loops to:    
 1. Compute the mean of every column in mtcars.
 
@@ -68,6 +73,52 @@ for (i in colnames(iris)){
 
 4. Generate 10 random normals from distributions with means of -10, 0, 10, and 100.
 
+```R
+for (i in c(-10, 0, 10, 100)){
+    print(rnorm(10, i))
+}
+```
+
+
+### 2. Eliminate the for loop in each of the following examples by taking advantage of an existing function that works with vectors:
+
+```R
+# 1
+out <- ""
+for (x in letters) {
+  out <- stringr::str_c(out, x)
+}
+
+# 2
+x <- sample(100)
+sd <- 0
+for (i in seq_along(x)) {
+  sd <- sd + (x[i] - mean(x)) ^ 2
+}
+sd <- sqrt(sd / (length(x) - 1))
+
+# 3
+x <- runif(100)
+out <- vector("numeric", length(x))
+out[1] <- x[1]
+for (i in 2:length(x)) {
+  out[i] <- out[i - 1] + x[i]
+}
+```
+
+```R
+# 1
+out <- ""
+out <- paste(out, letters)
+
+
+#2
+x <- sample(100)
+sd <- sd(x)
+
+#3
+
+```
 ## Section 21.5.3: # 1 , 4
 
 ### 1. Write for maps to:    
@@ -85,7 +136,7 @@ map(flights, typeof)
 
 3. Compute the number of unique values in each column of iris.
 
-```map
+```R
 x <- function(x){
     return(length(unique(x)))
 }
@@ -95,17 +146,19 @@ map(iris, x)
 
 4. Generate 10 random normals from distributions with means of -10, 0, 10, and 100.
 
+```R
+map(c(-10,0,10,100), rnorm, n=10)
+```
+
 ### 4. What does map(-2:2, rnorm, n = 5) do? Why? What does map_dbl(-2:2, rnorm, n = 5) do? Why?
 
-working backwords n: will set the number fo times that it will run the calculation
+working backwards `n` is the size it represents the n in `rnorm`, 
+`rnorm` will get into the map and use it to generate a normal distribution
+`-2:2` is the mean value for `rnorm`, in this case its values between -2, -1, 0, 1, 2
 
-rnorm is a function that "Density, distribution function, quantile function and random generation for the normal distribution with mean equal to ‘mean’ and standard deviation equal to ‘sd’." which is played over the set
+`map_dbl` enforces the numbers to be doubles where as `map` uses the generic number type
 
--2:2 is the set 
-
-map runs it over the data set
-
-the second function doesn't compile
+<div style="page-break-after: always;"></div>
 
 ## Section 19.2.1: # 4
 
@@ -138,6 +191,7 @@ skew <- function(n, x){
     )
 }
 ```
+<div style="page-break-after: always;"></div>
 
 ## Section 19.4.4: # 3 
 

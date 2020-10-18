@@ -52,11 +52,11 @@ generate_scatterplot <- function(...){
         my_list[i] <- remove_csv(my_list[i])
     }
 
-    joined <- jake_join(...)
+    joined <- jake_join(my_list)
 
     plot_call <- 0
 
-    if(my_list[3] != N/A){
+    if(){
         plot_call <- ggplot(aes_string(my_list[1], my_list[2], my_list[1])) + # aes string allows for the column name to as a string and not a datapoint
         
     }

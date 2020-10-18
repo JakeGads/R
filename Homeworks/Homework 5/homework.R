@@ -45,3 +45,19 @@ fizzbuzz <- function(x){
         return("BUZZ")
     }
 }
+
+means <- c(-10, 0, 10, 100)
+
+for (i in c(-10, 0, 10, 100)){
+    print(rnorm(10, i))
+}
+
+x <- function(y){
+    return(rnorm(10, y))
+}
+
+map(c(-10,0,10,100), rnorm, n=10)
+
+x <- -5:5
+x[-which(x > 0)]
+x[x <= 0]
