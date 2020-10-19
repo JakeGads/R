@@ -52,11 +52,9 @@ generate_scatterplot <- function(x,y, c='None'){
     y <- remove_csv(y)
     c <- remove_csv(c)
 
-    joined <- jake_join(x,y,c)
-
     graph <- 0
     if(c != 'None'){
-        graph <- joined %>%
+        graph <- jake_join(x,y,c) %>%
         ggplot(aes_string(x, y, color=c)) + # aes string allows for the column name to as a string and not a datapoint
         geom_point() +
         labs(
