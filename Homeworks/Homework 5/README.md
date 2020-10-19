@@ -23,6 +23,9 @@ that means we have to double that number when accounting for the negatives, ther
 
 again double that to account for negatives. 
 There are no options to set `.Machine$double.min` or `.Machine$double.xmin` 
+
+The way this calculates is reliant on the processor so these numbers may be different if you are on a 32 bit OS
+
 <div style="page-break-after: always;"></div>
 
 ## Section 20.4.6: # 5 , 6
@@ -79,6 +82,7 @@ for (i in c(-10, 0, 10, 100)){
 }
 ```
 
+<div style="page-break-after: always;"></div>
 
 ### 2. Eliminate the for loop in each of the following examples by taking advantage of an existing function that works with vectors:
 
@@ -113,12 +117,13 @@ out <- paste(out, letters)
 
 
 #2
-x <- sample(100)
-sd <- sd(x)
+sd <- sd(sample(100))
 
 #3
-
+cumsum(runif(100))
 ```
+<div style="page-break-after: always;"></div>
+
 ## Section 21.5.3: # 1 , 4
 
 ### 1. Write for maps to:    
@@ -164,30 +169,22 @@ working backwards `n` is the size it represents the n in `rnorm`,
 
 ### 4. write your own functions to compute the variance and skewness of a numeric vector. Variance is defined as 
 
+!!
+There is supposed to be a picture here but it deleted itself so you'll just have to pretend
+!!
+
 ![](Images/1.png)
 
 ```R
 variance <- function(n, x){
-    sum <- 0
-
-    for(i in x){
-        sum<- sum + (i - mean(x))
-    }
-
     return(
-        1/(n-1) * (sum * sum)
+        1/(n-1) * (sum(x) ** 2 )
     )
 }
 
 skew <- function(n, x){
-    sum <- 0
-
-    for(i in x){
-        sum<- sum + (i - mean(x))
-    }
-
     return(
-        ((1/(n-2)) * (sum * sum * sum)) / variance(n,x)
+        ((1/(n-2)) * (sum(x) ** 3)) / variance(n,x)
     )
 }
 ```

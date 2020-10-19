@@ -61,3 +61,14 @@ map(c(-10,0,10,100), rnorm, n=10)
 x <- -5:5
 x[-which(x > 0)]
 x[x <= 0]
+
+x <- runif(100)
+out <- vector("numeric", length(x))
+out[1] <- x[1]
+for (i in 2:length(x)) {
+  out[i] <- out[i - 1] + x[i]
+}
+cumsum(x)
+
+print(out)
+print(y)
