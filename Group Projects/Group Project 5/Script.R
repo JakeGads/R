@@ -28,10 +28,14 @@ jake_join <- function(x,y,z=FALSE){
     na.omit(y)
 
     if(z != FALSE){
-        
         gen_data <- gen_data %>%
         inner_join(clean_data(z)) %>%
         na.omit(z)
+        
+        gen_data <- gen_rank(gen_data, x,y,z)
+    }
+    else {
+       gen_data <- gen_rank(gen_data, x,y)
     }
     
     return(gen_data)
@@ -54,7 +58,8 @@ generate_scatterplot <- function(x,y, c='None'){
 
     graph <- 0
     if(c != 'None'){
-        graph <- jake_join(x,y,c) %>%
+        df = gen_rank(jake_join(x,y,c), x, y, c)
+        graph <- df %>%
         ggplot(aes_string(x, y, color=c)) + # aes string allows for the column name to as a string and not a datapoint
         geom_point() +
         labs(
@@ -66,7 +71,8 @@ generate_scatterplot <- function(x,y, c='None'){
         )
     }
     else{
-        graph <- jake_join(x,y) %>%
+        df = gen_rank(jake_join(x,y), x, y)
+        graph <- df %>%
         ggplot(mapping=aes_string(x,y)) + 
         geom_point() +
         labs(
@@ -79,4 +85,24 @@ generate_scatterplot <- function(x,y, c='None'){
     return(graph)
 }
 
+
+gen_rank = function(data_frame, x, y, z=FALSE){
+    if(z != FALSE){
+        data_frame %>%
+        mutate(
+            score = (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
+                    (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]]) + 
+                    (mean(data_frame[[z]]) - data_frame[[z]]) / sd(data_frame[[z]])
+        )
+    }
+    else{
+        data_frame %>%
+        mutate(score =  (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
+                        (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]])
+        )
+    }
+}
+
+
 generate_scatterplot("basic_water_access", "energy_production.csv", "income")
+generate_scatterplot("basic_water_access", "energy_production.csv")
