@@ -50,6 +50,24 @@ remove_csv <- function(file){
     return(file)
 }
 
+# mutates a data set to add a rank based on distance from the sd of each column
+gen_rank = function(data_frame, x, y, z=FALSE){
+    if(z != FALSE){
+        data_frame %>%
+        mutate(
+            score = (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
+                    (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]]) + 
+                    (mean(data_frame[[z]]) - data_frame[[z]]) / sd(data_frame[[z]])
+        )
+    }
+    else{
+        data_frame %>%
+        mutate(score =  (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
+                        (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]])
+        )
+    }
+}
+
 # makes a scatterplot, either colored or uncolored
 generate_scatterplot <- function(x,y, c='None'){
     x <- remove_csv(x)
@@ -84,25 +102,6 @@ generate_scatterplot <- function(x,y, c='None'){
     
     return(graph)
 }
-
-
-gen_rank = function(data_frame, x, y, z=FALSE){
-    if(z != FALSE){
-        data_frame %>%
-        mutate(
-            score = (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
-                    (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]]) + 
-                    (mean(data_frame[[z]]) - data_frame[[z]]) / sd(data_frame[[z]])
-        )
-    }
-    else{
-        data_frame %>%
-        mutate(score =  (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
-                        (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]])
-        )
-    }
-}
-
 
 generate_scatterplot("basic_water_access", "energy_production.csv", "income")
 generate_scatterplot("basic_water_access", "energy_production.csv")
