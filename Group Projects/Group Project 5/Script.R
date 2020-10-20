@@ -55,9 +55,9 @@ gen_rank = function(data_frame, x, y, z=FALSE){
     if(z != FALSE){
         data_frame %>%
         mutate(
-            score = (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
-                    (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]]) + 
-                    (mean(data_frame[[z]]) - data_frame[[z]]) / sd(data_frame[[z]])
+            score = (data_frame[[x]] - mean(data_frame[[x]])) / sd(data_frame[[x]]) + 
+                    (data_frame[[y]] - mean(data_frame[[y]])) / sd(data_frame[[y]]) + 
+                    (data_frame[[z]] - mean(data_frame[[z]])) / sd(data_frame[[z]])
         )
     }
     else{
@@ -102,27 +102,6 @@ generate_scatterplot <- function(x,y, c='None'){
     
     return(graph)
 }
-
-
-gen_rank = function(data_frame, x, y, z=FALSE){
-    if(z != FALSE){
-        data_frame %>%
-        mutate(
-            score = (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
-                    (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]]) + 
-                    (mean(data_frame[[z]]) - data_frame[[z]]) / sd(data_frame[[z]])
-        )
-    }
-    else{
-        data_frame %>%
-        mutate(score =  (mean(data_frame[[x]]) - data_frame[[x]]) / sd(data_frame[[x]]) + 
-                        (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]])
-        )
-    }
-
-    return(data_frame)
-}
-
 
 ccj_main <- function(collection){
     if(is.na(collection[3])){
