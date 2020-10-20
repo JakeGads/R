@@ -8,10 +8,10 @@ perm <- function(x){
     #set r
     r <- 3
     p <- permutations(n, r, v = x)
-
+    pdf(file=paste(1, '-', 50, '.pdf', sep = ""))
     for(i in 1:nrow(p)){
-        jpeg(paste('Images/', i, '.jpg', sep=""))
         ccj_main(c(p[i,1], p[i,2], p[i,3]))
+        dev.off()
     }
 }
 
