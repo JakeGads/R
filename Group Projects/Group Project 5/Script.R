@@ -101,8 +101,19 @@ gen_rank = function(data_frame, x, y, z=FALSE){
                         (mean(data_frame[[y]]) - data_frame[[y]]) / sd(data_frame[[y]])
         )
     }
+
+    return(data_frame)
 }
 
 
-generate_scatterplot("basic_water_access", "energy_production.csv", "income")
-generate_scatterplot("basic_water_access", "energy_production.csv")
+ccj_main <- function(collection){
+    if(is.na(collection[3])){
+        generate_scatterplot(collection[1], collection[2])
+    }
+    else{
+        generate_scatterplot(collection[1], collection[2], collection[3])
+    }
+}
+
+ccj_main(c("basic_water_access", "energy_production.csv", "income"))
+ccj_main(c("basic_water_access", "energy_production.csv"))
