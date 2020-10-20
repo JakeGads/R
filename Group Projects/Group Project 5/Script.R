@@ -8,11 +8,14 @@ perm <- function(x){
     #set r
     r <- 3
     p <- permutations(n, r, v = x)
-    pdf(file=paste(1, '-', 50, '.pdf', sep = ""))
+    sink(file = "output", append = TRUE, type = c("output", "message", "warning"))
     for(i in 1:nrow(p)){
-        ccj_main(c(p[i,1], p[i,2], p[i,3]))
-        dev.off()
+        temp <- ccj_main(c(p[i,1], p[i,2], p[i,3]))
+        print(temp)
+        temp <- ccj_main(c(p[i,1], p[i,2], p[i,3]), FALSE)
+        print(temp)
     }
+
 }
 
 # takes the data and makes it a formated data
@@ -103,7 +106,7 @@ generate_scatterplot <- function(x,y, c='None', high=TRUE){
         geom_point() +
         labs(
             title=paste(x, 'vs', y, sep = " "),
-            subtitle=paste("colored by", c),
+            subtitle=paste("colored and labeled by", c),
             x=x,
             y=y,
             color=c
