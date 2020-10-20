@@ -1,19 +1,4 @@
 library(tidyverse)
-# install.packages('gtools')
-library(gtools)
-
-perm <- function(x){
-    n <- length(x)
-
-    #set r
-    r <- 3
-    p <- permutations(n, r, v = x)
-
-    for(i in 1:nrow(p)){
-        jpeg(paste('Images/', i, '.jpg', sep=""))
-        ccj_main(c(p[i,1], p[i,2], p[i,3]))
-    }
-}
 
 # takes the data and makes it a formated data
 clean_data <- function(csv_file) {
@@ -34,6 +19,7 @@ clean_data <- function(csv_file) {
     return(gen_data)
 }
 
+
 # joins the data when accepted as a string
 jake_join <- function(x,y,z=FALSE){
     gen_data <- clean_data(x) %>%
@@ -45,6 +31,11 @@ jake_join <- function(x,y,z=FALSE){
         gen_data <- gen_data %>%
         inner_join(clean_data(z)) %>%
         na.omit(z)
+        
+        gen_data <- gen_rank(gen_data, x,y,z)
+    }
+    else {
+       gen_data <- gen_rank(gen_data, x,y)
     }
     
     return(gen_data)
@@ -61,30 +52,19 @@ remove_csv <- function(file){
 
 # mutates a data set to add a rank based on distance from the sd of each column
 gen_rank = function(data_frame, x, y, z=FALSE){
-    
-    df <- 0
-    
     if(z != FALSE){
-        df <- data_frame %>%
-        group_by(country) %>%
-        summarize_at(
-            vars(x,y,z),
-            funs(mean)
+        data_frame %>%
+        mutate(
+            score = (data_frame[[x]] - mean(data_frame[[x]])) / sd(data_frame[[x]]) + 
+                    (data_frame[[y]] - mean(data_frame[[y]])) / sd(data_frame[[y]]) + 
+                    (data_frame[[z]] - mean(data_frame[[z]])) / sd(data_frame[[z]])
         )
-
-        df <- df %>%
-        mutate(score = df[[z]])
     }
     else{
-        df <- data_frame %>%
-        group_by(country) %>%
-        summarize_at(
-            vars(x,y),
-            funs(mean)
+        data_frame %>%
+        mutate(score =  (data_frame[[x]] - mean(data_frame[[x]])) / sd(data_frame[[x]]) + 
+                        (data_frame[[y]] - mean(data_frame[[y]])) / sd(data_frame[[y]])
         )
-
-        df <- df %>%
-        mutate(score = df[[y]])
     }
 }
 
@@ -125,7 +105,8 @@ generate_scatterplot <- function(x,y, c='None', high=TRUE){
 }
 
 gen_label <- function(data_frame, bool) {
-    
+    print(data_frame)
+    readline()
     g <- 0
     if (bool){
         g <- data_frame %>%
@@ -136,25 +117,41 @@ gen_label <- function(data_frame, bool) {
         g <- data_frame %>%
         arrange(score)
     }
-    
+    print(g)
+    readline()
     #select the first value of score
-    return (geom_label(data = head(g, 1), mapping = aes(label = paste(country, score))))
+    return (geom_label(data = head(g, 1), mapping = aes(label = paste(year, country))))
 }
 
-ccj_main <- function(collection, high=TRUE){
+ccj_main <- function(collection){
     if(is.na(collection[3])){
-        generate_scatterplot(collection[1], collection[2], high=high)
+        generate_scatterplot(collection[1], collection[2])
     }
     else{
-        generate_scatterplot(collection[1], collection[2], collection[3], high = high)
+        generate_scatterplot(collection[1], collection[2], collection[3])
     }
 }
 
-perm(c(
-    "basic_water_access", 
-    "energy_production.csv", 
-    "income",
-    "under_5_population",
-    "life_expectancy",
-    "literacy_rate"
-))
+ccj_main(c("basic_water_access", "energy_production.csv", "income"))
+ccj_main(c("basic_water_access", "energy_production.csv"))
+
+
+df <- 0
+    if(z != FALSE){
+        df <- data_frame %>%
+        group_by(country) %>%
+        summarize_at(
+            vars(x,y,z),
+            funs(mean)
+        ) %>%
+        mutate(score = )
+    }
+    else{
+        df <- data_frame %>%
+        group_by(country) %>%
+        summarize_at(
+            vars(x,y),
+            funs(mean)
+        ) %>%
+        mutate(score = data_frame[[y]])
+    }
