@@ -8,12 +8,9 @@ perm <- function(x){
     #set r
     r <- 3
     p <- permutations(n, r, v = x)
-    sink(file = "output", append = TRUE, type = c("output", "message", "warning"))
     for(i in 1:nrow(p)){
-        temp <- ccj_main(c(p[i,1], p[i,2], p[i,3]))
-        print(temp)
-        temp <- ccj_main(c(p[i,1], p[i,2], p[i,3]), FALSE)
-        print(temp)
+        print(ccj_main(c(p[i,1], p[i,2], p[i,3])))
+        print(ccj_main(c(p[i,1], p[i,2], p[i,3]), FALSE))
     }
 
 }
