@@ -59,6 +59,88 @@ get_tibble <- function(file_path="", locs=0){
     }
 }
 
-get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(1,3,5))
+get_var_names <- function(locs=0){
+
+    pretty_print <- function(file){
+        remove_dir <- function(file){
+            if(grepl("/", file)){
+                file <- str_split(file,"/", 2)
+                file <- file[[1]][2]
+            }
+            
+            return(file)
+        }
+        
+        remove_csv <- function(file){
+            if(grepl(".csv", file)){
+                file <- str_split(file,".csv", 2)
+                file <- file[[1]][1]
+            }
+            return(file)
+        }
+
+        add_spaces <- function(file){
+            while(grepl("_", file)){
+                file <- str_replace(file, "_", " ")
+            }
+            return(file)
+        }
+
+        add_capitilzation <- function(file){
+            found_space <- TRUE
+            new_str <- ""
+            for(i in strsplit(file, "")[[1]]){
+                if(found_space){
+                    new_str <- paste(new_str, str_to_upper(i), sep="")
+                    found_space = FALSE
+                    next
+                }
+                
+                if(i == " "){
+                    found_space = TRUE
+                }
+
+                new_str <- paste(new_str, i, sep="")
+            }
+
+            return(new_str)
+
+        }
+
+        return(
+            add_capitilzation(
+                remove_dir(
+                    remove_csv(
+                        add_spaces(
+                            file
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    files <- list.files(recursive = T, pattern = ".*.csv")
+    names <- 0
+
+    if(locs == 0){
+        names <- c()
+        for(i in 1:length(files)){
+            temp <- pretty_print(files[i])
+            names[i] <- temp
+        }
+    }
+    else{
+        names <- c()
+        for(i in 1:length(locs)){
+            temp <- pretty_print(files[locs[i]])
+            names[i] <- temp
+        }
+    }
+    return(names)
+}
+
+get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
+get_var_names(locs=c(3,1,5))
 # generate additional files for making graphs pretty
-files <- list.files(full.names = T, recursive = T, pattern = ".*.csv")
+
