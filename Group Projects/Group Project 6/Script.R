@@ -19,21 +19,25 @@ get_tibble <- function(file_path="", locs=0){
                 values_to=paste("value", val, sep="")
             ) # pivits
 
+            
+
             return(gen_data)
         }
 
+        values = c()
         # get the starting point
         df <- clean_data(files[1], 1)
 
         # loops through and continues to add to the tibble
         for(i in 2:length(files)){
+            values[i] <- paste("value", i, sep='')
+            
             df <- df %>%
             inner_join(clean_data(files[i], i)) %>%
             na.omit(
-                paste("value", i, sep='')
+                values[i]
             )
         }
-
         return(df)
 
     }
@@ -59,54 +63,77 @@ get_tibble <- function(file_path="", locs=0){
     }
 }
 
-get_var_names <- function(locs=0){
-
+# gets the variables from the col locations listed in locs
+get_var_names <- function(file_path="", locs=0){
+    # returns a singluar column while editing it so it looks fancy
     pretty_print <- function(file){
+        # if the files have been gained through recursion it cuts off all of the routing information and leaves just the final aspect
         remove_dir <- function(file){
-            if(grepl("/", file)){
-                file <- str_split(file,"/", 2)
-                file <- file[[1]][2]
+            # checks if their are /s
+            if(grepl("/", file)){ 
+                # splits completely
+                file <- str_split(file,"/") 
+                # only pulls the last of the of the spllit which would be just the file
+                file <- file[[1]][length(file[[1]])]
             }
             
-            return(file)
+            return(file) # explict return if it doesn't make changes
         }
-        
+        # removes .csv from the end of the file
         remove_csv <- function(file){
-            if(grepl(".csv", file)){
+            # checks to see if csv in is the file name
+            if(grepl(".csv", file)){ 
+                # if it is it splits in 2
                 file <- str_split(file,".csv", 2)
+                # pulls the first element (file name) 
                 file <- file[[1]][1]
             }
             return(file)
         }
-
+        
+        # adds spaces instead of underscores
         add_spaces <- function(file){
+            # keeps running while there is an _
             while(grepl("_", file)){
+                # replaces
                 file <- str_replace(file, "_", " ")
             }
             return(file)
         }
 
+        # adds capitilization to the strings
         add_capitilzation <- function(file){
+            # first run through is true so it capitlizes
             found_space <- TRUE
+            # string saver
             new_str <- ""
+            # splits the word per letter
             for(i in strsplit(file, "")[[1]]){
+                # capitilzes after ever space
                 if(found_space){
+                    # appends the capital to the space
                     new_str <- paste(new_str, str_to_upper(i), sep="")
+                    # stands down
                     found_space = FALSE
+                    # `continue` doesn't run the remainder of this loop
                     next
                 }
                 
+                # if its found a space force uppercase on next letter
                 if(i == " "){
                     found_space = TRUE
                 }
 
+                # at end paste the string
                 new_str <- paste(new_str, i, sep="")
             }
 
+            # force the return
             return(new_str)
 
         }
 
+        # this order is very important like don't change this
         return(
             add_capitilzation(
                 remove_dir(
@@ -120,27 +147,56 @@ get_var_names <- function(locs=0){
         )
     }
 
-    files <- list.files(recursive = T, pattern = ".*.csv")
-    names <- 0
+    if(file_path != ""){
+        setwd(file_path)
+    }
 
+    # pulls all the files, in the current dir, note this comes after the get_tibble so its already set
+    files <- list.files(recursive = T, pattern = ".*.csv")
+    names <- c() # starts up the c so we can append to it later on
+
+    # if no locations have been specified
     if(locs == 0){
-        names <- c()
+        # do for all files
         for(i in 1:length(files)){
-            temp <- pretty_print(files[i])
-            names[i] <- temp
+            names[i] <- pretty_print(files[i]) 
         }
     }
     else{
-        names <- c()
         for(i in 1:length(locs)){
-            temp <- pretty_print(files[locs[i]])
-            names[i] <- temp
+            names[i] <- pretty_print(files[locs[i]])
         }
     }
     return(names)
 }
 
-get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
-get_var_names(locs=c(3,1,5))
-# generate additional files for making graphs pretty
+get_mean_vals <- function(df) {
+    return(
+        df %>% 
+        group_by(country) %>%
+        summarize_all(
+            funs(mean)
+        ) %>%
+        select(-year)
+    )
+    
+}
 
+get_score <- function(df){
+    # colnames(df)[3:length(colnames(df))]
+
+    df <- df %>%
+    mutate(score = 0)
+
+    for (i in colnames(df)[3:length(colnames(df))]){
+        df <- df %>%
+        mutate(score = score + ((df[[i]] - mean(df[[i]])) / sd(df[[i]])))
+    }
+
+    return(df)
+}
+
+data <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
+cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
+
+get_score(data)
