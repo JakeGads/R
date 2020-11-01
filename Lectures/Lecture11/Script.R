@@ -14,7 +14,7 @@ explore <- function(x, n, m){
     )
 
     ggplot(data) +
-    geom_point(mapping = aes_string(x[1], x[2], color=factor("subdivision3"),shape=factor("") )) +
+    geom_point(mapping = aes_string(x[1], x[2], color=factor("subdivision3"),shape=factor("subdivision4") )) +
     facet_grid(subdivision3 ~ subdivision4)
 }
 
