@@ -170,7 +170,7 @@ get_var_names <- function(file_path="", locs=0){
     return(names)
 }
 
-get_mean_vals <- function(df) {
+get_group_mean_vals <- function(df) {
     return(
         df %>% 
         group_by(country) %>%
@@ -182,7 +182,17 @@ get_mean_vals <- function(df) {
     
 }
 
-get_score <- function(df){
+get_individual_mean_vals <- function(df) {
+    return(
+        df %>% 
+        summarize_all(
+            funs(mean)
+        )
+    )
+    
+}
+
+get_individual_zscore <- function(df){
     # colnames(df)[3:length(colnames(df))]
 
     df <- df %>%
