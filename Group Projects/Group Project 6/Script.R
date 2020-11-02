@@ -206,7 +206,82 @@ get_individual_zscore <- function(df){
     return(df)
 }
 
-data <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
-cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
+# TODO everything after this need to be worked on
 
-get_score(data)
+generate_bar <- function(df, cols){
+    get_labs <- function(cols) {
+        return labs(
+            labs(
+                title = paste(cols[1], "vs", cols[2])
+            )
+        )
+    }
+
+    return(
+        ggplot(df) +
+        geom_bar(
+
+        ) + 
+        get_labs(cols)
+    )
+}
+
+generate_scatter <- function(df, cols){
+    get_labs <- function(cols) {
+        return labs(
+            labs(
+                title = paste(cols[1], "vs", cols[2])
+            )
+        )
+    }
+
+    return(
+        ggplot(df) + 
+        geom_point(
+
+        ) + 
+        get_labs(cols)
+    )
+
+}
+
+generate_densitity <- function(df, cols){
+    get_labs <- function(cols) {
+        return labs(
+            labs(
+                title = paste(cols[1], "vs", cols[2])
+            )
+        )
+    }
+
+    return(
+        ggplot(df) +
+        geom_density(
+
+        ) + 
+        get_labs(cols)
+    )
+
+}
+
+generate_line <- function(df, cols){
+    get_labs <- function(cols) {
+        return labs(
+            labs(
+                title = paste(cols[1], "vs", cols[2])
+            )
+        )
+    }
+
+    return(
+        ggplot(df) +
+        geom_line(
+
+        ) + 
+        get_labs(cols)
+    )
+
+}
+
+df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
+cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
