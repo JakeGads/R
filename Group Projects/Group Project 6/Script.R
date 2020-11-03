@@ -182,6 +182,25 @@ get_group_mean_vals <- function(df) {
     
 }
 
+get_group_score <- function(df){
+    # colnames(df)[2:length(colnames(df))]
+
+    df <- df %>%
+    group_by(country) %>%
+    summarize_all(
+        funs(mean)
+    ) %>%
+    select(-year) %>%
+    mutate(score = 0)
+
+    for (i in colnames(df)[2:length(colnames(df))]){
+        df <- df %>%
+        mutate(score = score + ((df[[i]] - mean(df[[i]])) / sd(df[[i]])))
+    }
+
+    return(df)
+}
+
 get_individual_mean_vals <- function(df) {
     return(
         df %>% 
@@ -192,7 +211,7 @@ get_individual_mean_vals <- function(df) {
     
 }
 
-get_individual_zscore <- function(df){
+get_individual_score <- function(df){
     # colnames(df)[3:length(colnames(df))]
 
     df <- df %>%
@@ -205,6 +224,7 @@ get_individual_zscore <- function(df){
 
     return(df)
 }
+
 
 # TODO everything after this need to be worked on
 
@@ -283,5 +303,43 @@ generate_line <- function(df, cols){
 
 }
 
+generate_facet <- function(df, cols) {
+    if(length(df) < 3){
+        return(geom_blank())
+    }
+    else if (length(df) == 3) { #single facet
+       return(
+           facet_wrap(~value3) +
+           labs(
+               subtitle = paste("faceted by", cols[3])
+           )
+       )
+    }
+    else{ # double facet
+        return(
+            facet_grid(value3~value4) +
+            labs(
+                subtitle = paste("faceted by", cols[3], "and", cols[4])
+            )
+        )
+    }
+}
+
+# graph_type: 1 for bar, 2 for scatter, 3 for density, 4 for line
+# summarize_type: 1 group mean; 2 individual mean; 3 sum(group zscores); 4 sum(indivual group zscores)
+# file_path: where the files are (it recursivly finds)
+# locs: the alphabetical location of those files
+ccj_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
+    df <- get_tibble(file_path=file_path, locs=locs)
+    var_names <- get_var_names(file_path=file_path, locs=locs)
+
+    
+    df <- switch(summarize_type, get_group_mean_vals(df), get_individual_mean_vals(df), get_group_score(df), get_individual_score(df))
+
+    graph_fun <- switch(graph_type, generate_bar, generate_scatter, generate_densitity, generate_line)
+}    
+
 df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
 cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
+
+ccj_wrapper(1)
