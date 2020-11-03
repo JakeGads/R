@@ -325,10 +325,15 @@ generate_facet <- function(df, cols) {
     }
 }
 
-# graph_type: 1 for bar, 2 for scatter, 3 for density, 4 for line
-# summarize_type: 1 group mean; 2 individual mean; 3 sum(group zscores); 4 sum(indivual group zscores)
-# file_path: where the files are (it recursivly finds)
-# locs: the alphabetical location of those files
+
+#' will generate a graph of your choosing
+#' @param graph_type (int) 1 for bar, 2 for scatter, 3 for density, 4 for line
+#' @param summarize_type (int) 1 group mean; 2 individual mean; 3 sum(group zscores); 4 sum(indivual group zscores)
+#' @param file_path (string) the location of the csv's, it will be running a setwd on this statment and must be finable from the current path
+#' @param locs (c(<int>)) in alphabetical order the location of all the csvs that you wish to grab
+#' @return some value
+#' @export
+
 ccj_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
     df <- get_tibble(file_path=file_path, locs=locs)
     var_names <- get_var_names(file_path=file_path, locs=locs)
@@ -336,7 +341,7 @@ ccj_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
     
     df <- switch(summarize_type, get_group_mean_vals(df), get_individual_mean_vals(df), get_group_score(df), get_individual_score(df))
 
-    graph_fun <- switch(graph_type, generate_bar, generate_scatter, generate_densitity, generate_line)
+    
 }    
 
 df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
