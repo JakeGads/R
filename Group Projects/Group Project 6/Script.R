@@ -229,18 +229,20 @@ get_individual_score <- function(df){
 # TODO everything after this need to be worked on
 
 generate_bar <- function(df, cols){
+    # df values 1
+    # df values 1,2
+    # df values 1,2,3
+
     get_labs <- function(cols) {
         return labs(
-            labs(
-                title = paste(cols[1], "vs", cols[2])
-            )
+            title = paste(cols[1])
         )
     }
 
     return(
         ggplot(df) +
         geom_bar(
-
+            aes()
         ) + 
         get_labs(cols)
     )
@@ -248,11 +250,10 @@ generate_bar <- function(df, cols){
 
 generate_scatter <- function(df, cols){
     get_labs <- function(cols) {
-        return labs(
+        return 
             labs(
                 title = paste(cols[1], "vs", cols[2])
             )
-        )
     }
 
     return(
@@ -333,14 +334,20 @@ generate_facet <- function(df, cols) {
 #' @param locs (c(<int>)) in alphabetical order the location of all the csvs that you wish to grab
 #' @return the generated graph
 #' @export
-ccj_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
+ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
     df <- get_tibble(file_path=file_path, locs=locs)
     var_names <- get_var_names(file_path=file_path, locs=locs)
 
     
     df <- switch(summarize_type, get_group_mean_vals(df), get_individual_mean_vals(df), get_group_score(df), get_individual_score(df))
-
+    graph <- switch(graph_type)
     
+    if(graph_type == 1){
+        return(graph)
+    }
+
+    return(graph + generate_facet(df, cols))
+
 }    
 
 df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
