@@ -331,9 +331,8 @@ generate_facet <- function(df, cols) {
 #' @param summarize_type (int) 1 group mean; 2 individual mean; 3 sum(group zscores); 4 sum(indivual group zscores)
 #' @param file_path (string) the location of the csv's, it will be running a setwd on this statment and must be finable from the current path
 #' @param locs (c(<int>)) in alphabetical order the location of all the csvs that you wish to grab
-#' @return some value
+#' @return the generated graph
 #' @export
-
 ccj_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
     df <- get_tibble(file_path=file_path, locs=locs)
     var_names <- get_var_names(file_path=file_path, locs=locs)
