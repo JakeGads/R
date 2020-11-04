@@ -239,12 +239,35 @@ generate_bar <- function(df, cols){
         )
     }
 
+    generate_facet_bar <- function(df, cols) {
+        if(length(df) < 2){
+            return(geom_blank())
+        }
+        else if (length(df) == 2) { #single facet
+        return(
+            facet_wrap(~value2) +
+            labs(
+                subtitle = paste("faceted by", cols[2])
+            )
+        )
+        }
+        else{ # double facet
+            return(
+                facet_grid(value2~value3) +
+                labs(
+                    subtitle = paste("faceted by", cols[2], "and", cols[3])
+                )
+            )
+        }
+    }
+
     return(
         ggplot(df) +
         geom_bar(
             aes()
         ) + 
-        get_labs(cols)
+        get_labs(cols) +
+        generate_facet_bar(df, cols)
     )
 }
 
