@@ -43,9 +43,11 @@ get_tibble <- function(file_path="", locs=0){
     }
 
     # sets the file_path but only if requred
+
     if(file_path != ""){
         setwd(file_path)
     }
+    
     # grab all files
     files <- list.files(full.names = T, recursive = T, pattern = ".*.csv")
     
@@ -174,10 +176,10 @@ get_group_mean_vals <- function(df) {
     return(
         df %>% 
         group_by(country) %>%
+        select(-year) %>%
         summarize_all(
             funs(mean)
-        ) %>%
-        select(-year)
+        )
     )
     
 }
@@ -187,10 +189,10 @@ get_group_score <- function(df){
 
     df <- df %>%
     group_by(country) %>%
+    select(-year) %>%
     summarize_all(
         funs(mean)
     ) %>%
-    select(-year) %>%
     mutate(score = 0)
 
     for (i in colnames(df)[2:length(colnames(df))]){
