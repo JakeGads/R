@@ -7,7 +7,7 @@ library(tidyverse)
 #' @param locs (c(<int>)) in alphabetical order the location of all the csvs that you wish to grab
 #' @return the generated graph
 #' @export
-ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
+ccj_main_wrapper = function(graph_type=2, summarize_type=1, file_path="", locs=0){
     # generates a tibble that has been joined
     get_tibble <- function(file_path="", locs=0){
         # joins however many files are pased into the it
@@ -376,3 +376,22 @@ ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
         )
     )
 }
+
+cat(
+    "
+    USAGE:
+        Function Name: ccj_main_wrapper
+        
+            Param 1 graph_type, default value 2: 
+                1 for bar, 2 for scatter, 3 for density, 4 for line
+
+            Param 2 summarize_type, default 1:
+                1 group mean, 2 individual mean, 3 sum(group zscores), 4 sum(indivual group zscores)
+
+            Param 3 file_path, default current directory:
+                pass a string of the directory that the files exist in NOTE: it will also search sub direcotries for csv files.
+
+            Param 4 locs, default none:
+                in alphabetical order which files you want to draw for your graph, the size will decided weither or not faceting is used and to what             
+    "
+)
