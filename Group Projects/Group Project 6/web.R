@@ -1,5 +1,3 @@
-library(tidyverse)
-
 #' will generate a graph of your choosing
 #' @param graph_type (int) 1 for bar, 2 for scatter, 3 for density, 4 for line
 #' @param summarize_type (int) 1 group mean; 2 individual mean; 3 sum(group zscores); 4 sum(indivual group zscores)
