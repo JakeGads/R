@@ -335,12 +335,13 @@ generate_line <- function(df, cols){
 
 }
 
-generate_facet <- function(df, cols) {
+generate_facet <- function(plot_, cols) {
     if(length(df) < 3){
-        return(geom_blank())
+        return(plot_ + geom_blank())
     }
     else if (length(df) == 3) { #single facet
        return(
+           plot_ + 
            facet_wrap(~value3) +
            labs(
                subtitle = paste("faceted by", cols[3])
@@ -349,6 +350,7 @@ generate_facet <- function(df, cols) {
     }
     else{ # double facet
         return(
+            plot_ + 
             facet_grid(value3~value4) +
             labs(
                 subtitle = paste("faceted by", cols[3], "and", cols[4])
@@ -370,20 +372,42 @@ ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
     var_names <- get_var_names(file_path=file_path, locs=locs)
 
     
-    df <- switch(summarize_type, get_group_mean_vals(df), get_individual_mean_vals(df), get_group_score(df), get_individual_score(df))
-    graph <- switch(graph_type)
+    df <- switch(
+        summarize_type, 
+        get_group_mean_vals(df), 
+        get_individual_mean_vals(df), 
+        get_group_score(df), 
+        get_individual_score(df)
+    )
+    return(
+        switch(
+            graph_type, 
+            generate_bar(df,cols),
+            generate_facet(
+                generate_scatter(df,cols), cols
+            ),
+            generate_facet(
+                generate_densitity(df, cols), cols
+            ),
+            generate_facet(
+                generate_line(df, cols), cols
+            )
+    ))
     
     if(graph_type == 1){
         return(graph)
     }
 
-    return(graph + generate_facet(df, cols))
+    return(generate_facet(graph, cols))
 
 }    
 
-df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
-cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
+# df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
+# cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
 
-# ccj_wrapper(1)
+# generate_bar(df, cols)
 
-generate_bar(df, cols)
+ccj_main_wrapper(1)
+ccj_main_wrapper(2)
+ccj_main_wrapper(3)
+ccj_main_wrapper(4)
