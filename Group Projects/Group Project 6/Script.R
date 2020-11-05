@@ -324,8 +324,8 @@ generate_line <- function(df, cols){
 
 }
 
-generate_facet <- function(plot_, cols) {
-    if("value3" %in% colnames(plot_) && "value4" %in% colnames(plot_)){
+generate_facet <- function(plot_, cols){
+    if(length(cols) >= 4){
         return(
             plot_ + 
             facet_grid(value3~value4) +
@@ -334,18 +334,20 @@ generate_facet <- function(plot_, cols) {
             )
         )
     }
-    else if ("value3" %in% colnames(plot_)) { #single facet
-       return(
+    
+    if (length(cols) == 3) { #single facet
+        
+        return(
            plot_ + 
            facet_wrap(~value3) +
            labs(
                subtitle = paste("faceted by", cols[3])
            )
-       )
+        )
     }
-    else{ # double facet
-        return(plot_ + geom_blank())
-    }
+    
+    return(plot_ + geom_blank())
+    
 }
 
 
