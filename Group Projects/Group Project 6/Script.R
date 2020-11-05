@@ -237,9 +237,7 @@ generate_bar <- function(df, cols){
 
     get_labs <- function(cols) {
         return (labs(
-            title = paste(cols[1]),
-            x = paste(cols[2]),
-            y = paste(cols[3])
+            title = cols[1]
         ))
     }
 
@@ -280,58 +278,40 @@ generate_bar <- function(df, cols){
 }
 
 generate_scatter <- function(df, cols){
-    get_labs <- function(cols) {
-        return 
-            labs(
-                title = paste(cols[1], "vs", cols[2])
-            )
+    get_labs <- function(plot_, cols) {
+        return (plot_ + labs(
+            title = paste(cols[1], "vs", cols[2])
+        ))
     }
-
-    return(
-        ggplot(df) + 
-        geom_point(
-
-        ) + 
-        get_labs(cols)
-    )
-
+    
+    plot_ = ggplot(data=df) + geom_point(mapping = aes(x = value1, y = value2)) 
+    plot_ = get_labs(plot_, cols)
+    return(plot_)
+  
 }
 
 generate_densitity <- function(df, cols){
-    get_labs <- function(cols) {
-        return labs(
-            labs(
-                title = paste(cols[1], "vs", cols[2])
-            )
-        )
+    get_labs <- function(plot_, cols) {
+        return (plot_ + labs(
+            title = paste(cols[1], "vs", cols[2])
+        ))
     }
-
-    return(
-        ggplot(df) +
-        geom_density(
-
-        ) + 
-        get_labs(cols)
-    )
-
+    
+    plot_ = ggplot(data=df) + geom_density(mapping = aes(x=value1)) 
+    plot_ = get_labs(plot_, cols)
+    return(plot_)
 }
 
 generate_line <- function(df, cols){
-    get_labs <- function(cols) {
-        return labs(
-            labs(
-                title = paste(cols[1], "vs", cols[2])
-            )
-        )
+    get_labs <- function(plot_, cols) {
+        return (plot_ + labs(
+            title = paste(cols[1], "vs", cols[2])
+        ))
     }
-
-    return(
-        ggplot(df) +
-        geom_line(
-
-        ) + 
-        get_labs(cols)
-    )
+    
+    plot_ = ggplot(data=df) + geom_line(mapping = aes(x = value1, y = value2)) 
+    plot_ = get_labs(plot_, cols)
+    return(plot_)
 
 }
 
@@ -382,15 +362,15 @@ ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
     return(
         switch(
             graph_type, 
-            generate_bar(df,cols),
+            generate_bar(df,var_names),
             generate_facet(
-                generate_scatter(df,cols), cols
+                generate_scatter(df,var_names), var_names
             ),
             generate_facet(
-                generate_densitity(df, cols), cols
+                generate_densitity(df, var_names), var_names
             ),
             generate_facet(
-                generate_line(df, cols), cols
+                generate_line(df, var_names), var_names
             )
     ))
     
@@ -400,14 +380,20 @@ ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
 
     return(generate_facet(graph, cols))
 
-}    
+}
 
-# df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
-# cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
+df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
+cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
 
 # generate_bar(df, cols)
 
-ccj_main_wrapper(1)
-ccj_main_wrapper(2)
-ccj_main_wrapper(3)
-ccj_main_wrapper(4)
+generate_densitity(df, cols)
+
+setwd("~/source/repo/R/Group Projects/Group Project 6")
+
+print(ccj_main_wrapper(1, 1, "~/source/repo/R/Group Projects/Group Project 6", c(3,1,5)))
+print(ccj_main_wrapper(2, 1, "~/source/repo/R/Group Projects/Group Project 6", c(3,1,5)))
+print(ccj_main_wrapper(3, 1, "~/source/repo/R/Group Projects/Group Project 6", c(3,1,5)))
+print(ccj_main_wrapper(4, 1, "~/source/repo/R/Group Projects/Group Project 6", c(3,1,5)))
+
+
