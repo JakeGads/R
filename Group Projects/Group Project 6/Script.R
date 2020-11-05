@@ -237,15 +237,21 @@ generate_bar <- function(df, cols){
 
     get_labs <- function(cols) {
         return (labs(
-            title = cols[1]
+            title = paste("BAR:", cols[1]),
+            x = cols[1],
+            y = "Count"
         ))
     }
 
     generate_facet_bar <- function(plot_, cols) {
-        if(length(df) < 2){
-            return(plot + geom_blank())
+        if("value2" %in% colnames(plot_) && "value3" %in% colnames(plot_)){
+            return(
+                plot_ + 
+                facet_grid(value2~value3)
+                
+            )
         }
-        else if (length(df) == 2) { #single facet
+        else if ("value2" %in% colnames(plot_)) { #single facet
             return(
                 plot_ +  
                 facet_wrap(~value2) +
@@ -255,11 +261,8 @@ generate_bar <- function(df, cols){
             )
         }
         else{ # double facet
-            return(
-                plot_ + 
-                facet_grid(value2~value3)
-                
-            )
+            return(plot + geom_blank())
+            
         }
     }
 
@@ -280,7 +283,9 @@ generate_bar <- function(df, cols){
 generate_scatter <- function(df, cols){
     get_labs <- function(plot_, cols) {
         return (plot_ + labs(
-            title = paste(cols[1], "vs", cols[2])
+            title = paste("SCATTER:", cols[1], "vs", cols[2]),
+            x = cols[1],
+            y = cols[2]
         ))
     }
     
@@ -293,7 +298,9 @@ generate_scatter <- function(df, cols){
 generate_densitity <- function(df, cols){
     get_labs <- function(plot_, cols) {
         return (plot_ + labs(
-            title = paste(cols[1], "vs", cols[2])
+            title = paste("DENSITY:", cols[1]),
+            x = cols[1],
+            y = "Density"
         ))
     }
     
@@ -305,7 +312,9 @@ generate_densitity <- function(df, cols){
 generate_line <- function(df, cols){
     get_labs <- function(plot_, cols) {
         return (plot_ + labs(
-            title = paste(cols[1], "vs", cols[2])
+            title = paste("LINE:",cols[1], "vs", cols[2]),
+            x = cols[1],
+            y = cols[2]
         ))
     }
     
@@ -316,10 +325,16 @@ generate_line <- function(df, cols){
 }
 
 generate_facet <- function(plot_, cols) {
-    if(length(df) < 3){
-        return(plot_ + geom_blank())
+    if("value3" %in% colnames(plot_) && "value4" %in% colnames(plot_)){
+        return(
+            plot_ + 
+            facet_grid(value3~value4) +
+            labs(
+                subtitle = paste("faceted by", cols[3], "and", cols[4])
+            )
+        )
     }
-    else if (length(df) == 3) { #single facet
+    else if ("value3" %in% colnames(plot_)) { #single facet
        return(
            plot_ + 
            facet_wrap(~value3) +
@@ -329,13 +344,7 @@ generate_facet <- function(plot_, cols) {
        )
     }
     else{ # double facet
-        return(
-            plot_ + 
-            facet_grid(value3~value4) +
-            labs(
-                subtitle = paste("faceted by", cols[3], "and", cols[4])
-            )
-        )
+        return(plot_ + geom_blank())
     }
 }
 
@@ -366,28 +375,16 @@ ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
             generate_facet(
                 generate_scatter(df,var_names), var_names
             ),
-            generate_facet(
-                generate_densitity(df, var_names), var_names
-            ),
+            generate_densitity(df, var_names),
             generate_facet(
                 generate_line(df, var_names), var_names
             )
-    ))
-    
-    if(graph_type == 1){
-        return(graph)
-    }
-
-    return(generate_facet(graph, cols))
-
+        )
+    )
 }
 
 df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
 cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
-
-# generate_bar(df, cols)
-
-generate_densitity(df, cols)
 
 setwd("~/source/repo/R/Group Projects/Group Project 6")
 
