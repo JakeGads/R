@@ -236,40 +236,46 @@ generate_bar <- function(df, cols){
     # df values 1,2,3
 
     get_labs <- function(cols) {
-        return labs(
-            title = paste(cols[1])
-        )
+        return (labs(
+            title = paste(cols[1]),
+            x = paste(cols[2]),
+            y = paste(cols[3])
+        ))
     }
 
-    generate_facet_bar <- function(df, cols) {
+    generate_facet_bar <- function(plot_, cols) {
         if(length(df) < 2){
-            return(geom_blank())
+            return(plot + geom_blank())
         }
         else if (length(df) == 2) { #single facet
-        return(
-            facet_wrap(~value2) +
-            labs(
-                subtitle = paste("faceted by", cols[2])
-            )
-        )
-        }
-        else{ # double facet
             return(
-                facet_grid(value2~value3) +
+                plot_ +  
+                facet_wrap(~value2) +
                 labs(
-                    subtitle = paste("faceted by", cols[2], "and", cols[3])
+                    subtitle = paste("faceted by", cols[2])
                 )
             )
         }
+        else{ # double facet
+            return(
+                plot_ + 
+                facet_grid(value2~value3)
+                
+            )
+        }
     }
 
+    
+    plot_ <- ggplot(df) +
+    geom_bar(
+        aes(x=value1)
+    ) + 
+    get_labs(cols)
+
+    # plot_ <- generate_facet_bar(plot_, cols)
+
     return(
-        ggplot(df) +
-        geom_bar(
-            aes()
-        ) + 
-        get_labs(cols) +
-        generate_facet_bar(df, cols)
+        plot_
     )
 }
 
@@ -378,4 +384,6 @@ ccj_main_wrapper = function(graph_type, summarize_type=1, file_path="", locs=0){
 df <- get_tibble(file_path="~/source/repo/R/Group Projects/Group Project 6", locs=c(3,1,5))
 cols <- get_var_names(file_path="~/source/repo/R/Group Projects/Group Project 6")
 
-ccj_wrapper(1)
+# ccj_wrapper(1)
+
+generate_bar(df, cols)
