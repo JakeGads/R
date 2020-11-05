@@ -377,7 +377,7 @@ ccj_main_wrapper = function(graph_type=2, summarize_type=1, file_path="", locs=0
     )
 }
 
-cat(
+print(cat(
     "
     USAGE:
         Function Name: ccj_main_wrapper
@@ -394,4 +394,4 @@ cat(
             Param 4 locs, default none:
                 in alphabetical order which files you want to draw for your graph, the size will decided weither or not faceting is used and to what             
     "
-)
+))
