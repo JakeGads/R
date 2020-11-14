@@ -20,7 +20,7 @@ gen_model <- function(regression, title, comp=F){
 
     if(comp){
         plot <- multiplot(
-            p1,
+            plot,
             ggplot(sim1a, aes(x)) + 
             geom_point(aes(y=y)) +
             geom_smooth(data = grid, aes(y=pred), color="blue") +
@@ -38,18 +38,21 @@ gen_model <- function(regression, title, comp=F){
     plot <- ggplot(sim1a, aes(resid)) +
         geom_freqpoly(binwidth=0.5) +
         ggtitle(title)
-    
+
     print(
-        ggplot(sim1a, aes(resid)) +
-        geom_freqpoly(binwidth=0.5) +
-        ggtitle(title)
+       plot
     )
     
-    print(
-        ggplot(sim1a, aes(x,resid)) +
+
+    plot <- ggplot(sim1a, aes(x,resid)) +
         geom_point() +
         geom_ref_line(h=0) +
         ggtitle(title)
+
+    if(comp)
+
+    print(
+        
     )
 
     dev.off()
