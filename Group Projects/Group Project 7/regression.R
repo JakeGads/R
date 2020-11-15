@@ -1,6 +1,5 @@
 #' Runs a full regression test and saves the information to a csv
-#' @param one (tibble) the starting tibble
-#' @param repo (tibble) the joined tibble
+#' @param gamer
 #' @export a joined, cleaned and pivioted tibble
 gen_model <- function(regression, title, comp=F){
     pdf(paste(title, ".pdf", sep=""))
