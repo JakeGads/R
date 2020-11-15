@@ -1,5 +1,19 @@
-library(tidyverse)
-library(modelr)
+smart_package_loader <- function(package, repo="http://cran.rstudio.com"){
+    tryCatch({
+        library(package, character.only=TRUE)
+    },  error = function(e) {
+        install.packages(package, repos = repo)
+        tryCatch({
+                library(package, character.only=TRUE)
+            }, error = function(e) {
+                print("packages have failed to install please run in interactive mode")        
+            })  
+    })
+}
+
+for (i in c("tidyverse", "ggplot2", "gridExtra","modelr")){
+    smart_package_loader(i, "http://ftp.ussg.iu.edu/CRAN/") # on DeSales wifi this has been the best cran mirror to use
+}
 
 sim1a <- tibble(
   x = rep(1:10, each = 3),
@@ -19,12 +33,15 @@ gen_model <- function(regression, title, comp=F){
         ggtitle(title)
 
     if(comp){
-        plot <- multiplot(
-            plot,
-            ggplot(sim1a, aes(x)) + 
+        secondary <- ggplot(sim1a, aes(x)) + 
             geom_point(aes(y=y)) +
             geom_smooth(data = grid, aes(y=pred), color="blue") +
             ggtitle(title)
+        
+        plot <- grid.arrange(
+            plot,
+            secondary,
+            nrow=1
         )
     }
 
@@ -49,10 +66,21 @@ gen_model <- function(regression, title, comp=F){
         geom_ref_line(h=0) +
         ggtitle(title)
 
-    if(comp)
+    if(comp){
+        secondary <- ggplot(sim1a, aes(x,resid)) +
+        geom_smooth() + 
+        geom_ref_line(h=0) +
+        ggtitle(title)
+
+        plot <- grid.arrange(
+            plot,
+            secondary,
+            nrow=2
+        )
+    }
 
     print(
-        
+        plot
     )
 
     dev.off()
@@ -65,7 +93,7 @@ gen_model(lm(log(y) ~ sqrt(x) - 1, sim1a), "linear 3")
 gen_model(lm(y ~ I(x^2) + x - 1, sim1a), "linear 4")
 
 # loess
-gen_model(loess(y ~ x, data=sim1a), "loess 1", true) 
-gen_model(loess(y ~ I(x^2), sim1a), "loess 2")
-gen_model(loess(log(y) ~ sqrt(x) - 1, sim1a), "loess 3")
-gen_model(loess(y ~ I(x^2) + x - 1, sim1a), "loess 4")
+gen_model(loess(y ~ x, data=sim1a), "loess 1", T) 
+gen_model(loess(y ~ I(x^2), sim1a), "loess 2", T)
+gen_model(loess(log(y) ~ sqrt(x) - 1, sim1a), "loess 3", T)
+gen_model(loess(y ~ I(x^2) + x - 1, sim1a), "loess 4", T)
