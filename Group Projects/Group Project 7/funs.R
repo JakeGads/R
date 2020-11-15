@@ -1,3 +1,7 @@
+#' Takes 2 tibbles and merges them together
+#' @param one (tibble) the starting tibble
+#' @param repo (tibble) the joined tibble
+#' @export a joined, cleaned and pivioted tibble
 get_tibble <- function(one,two) {
     clean_data <- function(df, val=1) {
         df <- df %>%
@@ -17,8 +21,13 @@ get_tibble <- function(one,two) {
         clean_data(files[2], 2)
     ) %>%
     na.omit(values[2])
+
+    return(df)
 }
 
+#' Takes a file name and files a list of string changes to pretty print
+#' @param file (string) the filename, may included "/", directories, and file extensions
+#' @export a pretty printed string for use in graphing information
 get_var_name <- function(file) {
     pretty_print <- function(file){
         # if the files have been gained through recursion it cuts off all of the routing information and leaves just the final aspect
