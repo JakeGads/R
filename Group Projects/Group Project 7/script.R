@@ -39,9 +39,9 @@ smart_data_loader <- function(location, repo = "https://raw.githubusercontent.co
     tryCatch(
         {
             data <- read_csv(location)
-        }, warning = function(e) {
+        }, error = function(e) {
             print(paste("Downloading ", location, sep= ""))
-            data <- (paste(repo, location, sep=""))
+            data <- read_csv(url(paste(repo, location, sep="")))
         }
     )
     return(data)
@@ -53,7 +53,7 @@ for (i in c("tidyverse", "devtools", "modelr")){
 }
 
 # for loop to grab additional scripts
-for (i in c("funs.R")){
+for (i in c("funs.R", "regression.R")){
     smart_script_loader(i)
 }
 
@@ -73,7 +73,30 @@ val_names <- c(NA)
 
 # loads them in dynamicaly
 for (i in 1:length(files)) {
-    data[i] <- smart_data_loader(files[i])
     val_names[i] <- get_var_name(files[i])
 }
 
+# # linear
+# lm(y ~ x, data=df)
+# lm(y ~ I(x^2), df)
+# lm(log(y) ~ sqrt(x) - 1, df)
+# lm(y ~ I(x^2) + x - 1, df)
+
+# loess
+# loess(y ~ x, data=df)
+# loess(y ~ I(x^2), df)
+# loess(log(y) ~ sqrt(x) - 1, df)
+# loess(y ~ I(x^2) + x - 1, df)
+
+
+# example
+df <- get_tibble(smart_data_loader(files[1]), smart_data_loader(files[2]))
+gen_model(
+    df,
+    loess(log(y) ~ sqrt(x) - 1, df), 
+    "Loess: log(y) ~ sqrt(x)", 
+    val_names[1], 
+    val_names[2], 
+    pdf='example.pdf', 
+    smooth_comp=T
+)

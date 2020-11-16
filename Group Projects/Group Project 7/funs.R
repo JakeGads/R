@@ -7,20 +7,18 @@ get_tibble <- function(one,two) {
         df <- df %>%
         pivot_longer(
             colnames(df)[-1],
-            values_to="year",
+            names_to="year",
             values_to=paste("value", val, sep="")
         )
 
         return(df)
     }
 
-    values <- c()
-
-    df <- clean_data(files[1], 1) %>%
+    df <- clean_data(one, 1) %>%
     inner_join(
-        clean_data(files[2], 2)
+        clean_data(two, 2)
     ) %>%
-    na.omit(values[2])
+    na.omit(value2)
 
     return(df)
 }
