@@ -23,6 +23,9 @@ sim1a <- tibble(
 gen_model <- function(regression, title, comp=F){
     pdf(paste(title, ".pdf", sep=""))
     
+    print(sim1a)
+    print(regression)
+
     grid <- sim1a %>%
     data_grid(x) %>%
     add_predictions(regression)

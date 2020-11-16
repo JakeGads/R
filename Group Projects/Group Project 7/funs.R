@@ -1,27 +1,48 @@
+#' Loads csv, if not found will reach out to github
+#' @param location (string) if the entire repo is present the file location 
+#' @param repo (string) where the repo is hosted, defaulted to the repo where this is hosted
+#' @export
+smart_data_loader <- function(location, repo = "https://raw.githubusercontent.com/gadzygadz/R/master/Group%20Projects/Group%20Project%207/"){
+    data <- 0
+    tryCatch(
+        {
+            data <- read_csv(location)
+        }, error = function(e) {
+            print(paste("Downloading ", location, sep= ""))
+            data <- read_csv(url(paste(repo, location, sep="")))
+        }
+    )
+    return(data)
+}
+
+
 #' Takes 2 tibbles and merges them together
 #' @param one (tibble) the starting tibble
 #' @param repo (tibble) the joined tibble
 #' @export a joined, cleaned and pivioted tibble
 get_tibble <- function(one,two) {
-    clean_data <- function(df, val=1) {
-        df <- df %>%
+    clean <- function(file, val=1) {
+        gen_data <- smart_data_loader(file)
+        cols <- colnames(gen_data)
+        gen_data <- gen_data %>%
         pivot_longer(
-            colnames(df)[-1],
+            cols[-1],
             names_to="year",
-            values_to=paste("value", val, sep="")
+            values_to=paste(val)
         )
 
-        return(df)
+        return(gen_data)
     }
 
-    df <- clean_data(one, 1) %>%
-    inner_join(
-        clean_data(two, 2)
-    ) %>%
-    na.omit(value2)
-
-    return(df)
+    x <- clean(one, "x")
+    y <- clean(two, "y")
+     
+    return(
+        inner_join(x, y) %>% na.omit(y)
+    )
 }
+
+data <- get_tibble("data/basic_water_access.csv", "data/income.csv")
 
 #' Takes a file name and files a list of string changes to pretty print
 #' @param file (string) the filename, may included "/", directories, and file extensions

@@ -7,22 +7,13 @@
 #' @param pdf (string) when set this will save the graphs as that file name
 #' @param smooth_comp (bool) if set to True will add a geom smooth to each approapriate graph in a grid
 #' @export a joined, cleaned and pivioted tibble
-gen_model <- function(df, regression, regression_formula_str='A regression Model', val1_str="X", val2_str="Y", pdf='', smooth_comp=F){
+gen_model <- function(df, regression, grid, regression_formula_str='A regression Model', val1_str="X", val2_str="Y", pdf='', smooth_comp=F){
     if(pdf != ''){
         pdf(paste(pdf, ".pdf", sep=""))
     }
 
-    print(regression)
-    print(regression_formula_str)    
-
-    grid <- df %>%
-    data_grid(value1) %>%
-    add_predictions(regression)
-
-    print(grid$pred)
-
-    plot <- ggplot(df, aes(value1)) + 
-        geom_point(aes(y=value2)) +
+    plot <- ggplot(df, aes(x)) + 
+        geom_point(aes(y=y)) +
         geom_point(data = grid, aes(y=pred), color="orange") +
         labs(
             title = paste(regression_formula_str, " 1", sep=""),
@@ -31,8 +22,8 @@ gen_model <- function(df, regression, regression_formula_str='A regression Model
             y = val2_str
         )
     if(smooth_comp){
-        secondary <- ggplot(df, aes(value1)) + 
-            geom_point(aes(y=value2)) +
+        secondary <- ggplot(df, aes(x)) + 
+            geom_point(aes(y=y)) +
             geom_smooth(data = grid, aes(y=pred), color="orange") +
             ggtitle(title) +
             labs(
@@ -58,7 +49,7 @@ gen_model <- function(df, regression, regression_formula_str='A regression Model
 
     plot <- ggplot(df, aes(resid)) +
         geom_freqpoly(binwidth=0.5) +
-        ggtitle(title) ++
+        ggtitle(title) +
         labs(
             title = paste(regression_formula_str, " Residuals", sep=""),
             subtitle = paste(val1_str, " vs ", val2_str, sep=""),
@@ -71,7 +62,7 @@ gen_model <- function(df, regression, regression_formula_str='A regression Model
     )
     
 
-    plot <- ggplot(df, aes(value1,resid)) +
+    plot <- ggplot(df, aes(x,resid)) +
         geom_point() +
         geom_ref_line(h=0) +
         ggtitle(title) +
@@ -83,7 +74,7 @@ gen_model <- function(df, regression, regression_formula_str='A regression Model
         )
 
     if(smooth_comp){
-        secondary <- ggplot(df, aes(value1,resid)) +
+        secondary <- ggplot(df, aes(x,resid)) +
         geom_smooth() + 
         geom_ref_line(h=0) +
         ggtitle(title) +

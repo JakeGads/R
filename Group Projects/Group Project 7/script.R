@@ -1,3 +1,4 @@
+#region works
 #' Loads packages via strings if a package is not found it will install it from a given repo
 #' @param package (string) the library that will be loaded in
 #' @param repo (string) the mirror you wish to download to defaults to defualt R mirror
@@ -30,25 +31,8 @@ smart_script_loader <- function(location, repo = "https://raw.githubusercontent.
         })
 }
 
-#' Loads csv, if not found will reach out to github
-#' @param location (string) if the entire repo is present the file location 
-#' @param repo (string) where the repo is hosted, defaulted to the repo where this is hosted
-#' @export
-smart_data_loader <- function(location, repo = "https://raw.githubusercontent.com/gadzygadz/R/master/Group%20Projects/Group%20Project%207/"){
-    data <- 0
-    tryCatch(
-        {
-            data <- read_csv(location)
-        }, error = function(e) {
-            print(paste("Downloading ", location, sep= ""))
-            data <- read_csv(url(paste(repo, location, sep="")))
-        }
-    )
-    return(data)
-}
-
 # for loop that installs the packages that are needed 
-for (i in c("tidyverse", "devtools", "modelr")){
+for (i in c("tidyverse", "devtools", "modelr", "gridExtra")){
     smart_package_loader(i, "http://ftp.ussg.iu.edu/CRAN/") # on DeSales wifi this has been the best cran mirror to use
 }
 
@@ -68,7 +52,6 @@ files <- c(
     # Some Data is missing
 )
 
-data <- c(NA)
 val_names <- c(NA)
 
 # loads them in dynamicaly
@@ -87,16 +70,23 @@ for (i in 1:length(files)) {
 # loess(y ~ I(x^2), df)
 # loess(log(y) ~ sqrt(x) - 1, df)
 # loess(y ~ I(x^2) + x - 1, df)
+#endregion
 
 
-# example
-df <- get_tibble(smart_data_loader(files[1]), smart_data_loader(files[2]))
+
+data <- get_tibble(files[3], files[5]) # running get tibles will join the files
+regression <- loess(y ~ x, data) # the regression algorithm you want ot run
+grid <- data %>%
+    data_grid(x) %>%
+    add_predictions(regression) # follow this example to save it to the grid
+
 gen_model(
-    df,
-    loess(log(y) ~ sqrt(x) - 1, df), 
-    "Loess: log(y) ~ sqrt(x)", 
-    val_names[1], 
-    val_names[2], 
-    pdf='example.pdf', 
-    smooth_comp=T
+    data, # the data frame
+    regression, # the regression
+    grid, # the grid, must be generated oustide of the function for some reason
+    "Loess: log(y) ~ sqrt(x)", # a string to be used in labs
+    val_names[3], # used for labs, should match the first file
+    val_names[4], # used for labs should match the second file
+    pdf='example', # if set it will save the pdf as that location, if not it will save as a raw
+    smooth_comp=T # will add a comparison to a geom_smooth
 )
