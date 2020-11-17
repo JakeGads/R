@@ -50,11 +50,15 @@ for (i in c("funs.R", "regression.R")){
 #region File Information
 # all files present in the system
 files <- c(
+    "data/armed_forces_personnel.csv"
     "data/basic_water_access.csv", 
+    "data/earthquake.csv",
     "data/energy_production.csv",
     "data/income.csv",
     "data/life_expectancy.csv",
     "data/literacy_rate.csv",
+    "data/refugee_diaspora.csv",
+    "data/refugee_share.csv",
     "data/under_5_population.csv"
     # Some Data is missing
 )
