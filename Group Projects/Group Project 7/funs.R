@@ -3,13 +3,13 @@
 #' @param repo (string) where the repo is hosted, defaulted to the repo where this is hosted
 #' @export
 smart_data_loader <- function(location, repo = "https://raw.githubusercontent.com/gadzygadz/R/master/Group%20Projects/Group%20Project%207/"){
-    data <- 0
+    data <- 0 # populate the data with just something empty so returns fail less
     tryCatch(
         {
-            data <- read_csv(location)
+            data <- read_csv(location) # check the local location
         }, error = function(e) {
-            print(paste("Downloading ", location, sep= ""))
-            data <- read_csv(url(paste(repo, location, sep="")))
+            print(paste("Downloading ", location, sep= "")) 
+            data <- read_csv(url(paste(repo, location, sep=""))) # reads from teh web
         }
     )
     return(data)
@@ -21,28 +21,33 @@ smart_data_loader <- function(location, repo = "https://raw.githubusercontent.co
 #' @param repo (tibble) the joined tibble
 #' @export a joined, cleaned and pivioted tibble
 get_tibble <- function(one,two) {
-    clean <- function(file, val=1) {
-        gen_data <- smart_data_loader(file)
-        cols <- colnames(gen_data)
-        gen_data <- gen_data %>%
+    
+    #' loads a tibble and pivots it
+    #' @param file (string) the location of the file, 
+    #' @param val (string) the pivot system
+    #' @export a cleaned data set
+    clean <- function(file, val="variable") {
+        gen_data <- smart_data_loader(file) # smart download the data
+        cols <- colnames(gen_data) # get my col names 
+        gen_data <- gen_data %>% 
         pivot_longer(
             cols[-1],
             names_to="year",
             values_to=paste(val)
-        )
+        ) # pivots
 
+        # returns
         return(gen_data)
     }
 
+    # gets the x and y clean data
     x <- clean(one, "x")
     y <- clean(two, "y")
      
     return(
-        inner_join(x, y) %>% na.omit(y)
+        inner_join(x, y) %>% na.omit(y) # na.omits
     )
 }
-
-data <- get_tibble("data/basic_water_access.csv", "data/income.csv")
 
 #' Takes a file name and files a list of string changes to pretty print
 #' @param file (string) the filename, may included "/", directories, and file extensions
