@@ -8,23 +8,26 @@
 #' @param smooth_comp (bool) if set to True will add a geom smooth to each approapriate graph in a grid
 #' @export a joined, cleaned and pivioted tibble
 gen_model <- function(df, regression, grid, regression_formula_str='A regression Model', val1_str="X", val2_str="Y", pdf='', smooth_comp=F){
+    # create the pdf file if a file name was given
     if(pdf != ''){
         pdf(paste(pdf, ".pdf", sep=""))
     }
 
+    # create the first plot
     plot <- ggplot(df, aes(x)) + 
         geom_point(aes(y=y)) +
-        geom_point(data = grid, aes(y=pred), color="orange") +
-        labs(
-            title = paste(regression_formula_str, " 1", sep=""),
+        geom_point(data = grid, aes(y=pred), color="orange") + # orange was chosen to be color-blind friendlier
+        labs( # labs
+            title = paste(regression_formula_str, " Intial", sep=""),
             subtitle = paste(val1_str, " vs ", val2_str, sep=""),
             x = val1_str,
             y = val2_str
         )
-    if(smooth_comp){
+    if(smooth_comp){ # if they want a comparson
+        # generate a second fraph with the 2nd point replaced with a smooth
         secondary <- ggplot(df, aes(x)) + 
             geom_point(aes(y=y)) +
-            geom_smooth(data = grid, aes(y=pred), color="orange") +
+            geom_smooth(data = grid, aes(y=pred), color="orange") + # leave that orange color
             ggtitle(title) +
             labs(
                 title = paste("Smooth Compare 1", sep=""),
@@ -33,21 +36,21 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
                 y = val2_str
             )
         
-        plot <- grid.arrange(
-            plot,
-            secondary,
+        plot <- grid.arrange( # overwrite plot with a grid of the options
+            plot, # our intial plot
+            secondary, # our secondary plot
             nrow=1
         )
     }
 
     print(
-        plot
+        plot # prints, if set to a pdf it will print there else it will use whatever output method is available
     )
 
     df <- df %>%
-    add_residuals(regression)
+    add_residuals(regression) # adding some regression to out dataframe
 
-    plot <- ggplot(df, aes(resid)) +
+    plot <- ggplot(df, aes(resid)) + # plotting the residual regression
         geom_freqpoly(binwidth=0.5) +
         ggtitle(title) +
         labs(
@@ -57,11 +60,12 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             y = val2_str
         )
 
-    print(
+    print( # see last print
        plot
     )
     
 
+    # graphing against the residual
     plot <- ggplot(df, aes(x,resid)) +
         geom_point() +
         geom_ref_line(h=0) +
@@ -73,7 +77,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             y = val2_str
         )
 
-    if(smooth_comp){
+    if(smooth_comp){ # including the comparision
         secondary <- ggplot(df, aes(x,resid)) +
         geom_smooth() + 
         geom_ref_line(h=0) +
@@ -96,7 +100,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
         plot
     )
 
-    if(pdf != ''){
+    if(pdf != ''){ # if a pdf was selected it will now shutdown the outfile and save it
         dev.off()
     }
 }
