@@ -86,7 +86,7 @@ gen_model(
     grid, # the grid, must be generated oustide of the function for some reason
     "Loess: log(y) ~ sqrt(x)", # a string to be used in labs
     val_names[3], # used for labs, should match the first file
-    val_names[4], # used for labs should match the second file
+    val_names[5], # used for labs should match the second file
     pdf='example', # if set it will save the pdf as that location, if not it will save as a raw
     smooth_comp=T # will add a comparison to a geom_smooth
 )

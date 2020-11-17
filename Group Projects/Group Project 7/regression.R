@@ -7,7 +7,7 @@
 #' @param pdf (string) when set this will save the graphs as that file name
 #' @param smooth_comp (bool) if set to True will add a geom smooth to each approapriate graph in a grid
 #' @export a joined, cleaned and pivioted tibble
-gen_model <- function(df, regression, grid, regression_formula_str='A regression Model', val1_str="X", val2_str="Y", pdf='', smooth_comp=F){
+gen_model <- function(df, regression, grid, regression_formula_str='A regression Model', val1_str="X", val2_str="Y", pdf='', smooth_comp=F, bins=10){
     # create the pdf file if a file name was given
     if(pdf != ''){
         pdf(paste(pdf, ".pdf", sep=""))
@@ -50,14 +50,16 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
     df <- df %>%
     add_residuals(regression) # adding some regression to out dataframe
 
+    bins <- (max(df$resid) - min(df$resid)) / bins
+
     plot <- ggplot(df, aes(resid)) + # plotting the residual regression
-        geom_freqpoly(binwidth=0.5) +
+        geom_freqpoly(binwidth=bins) +
         ggtitle(title) +
         labs(
             title = paste(regression_formula_str, " Residuals", sep=""),
             subtitle = paste(val1_str, " vs ", val2_str, sep=""),
-            x = val1_str,
-            y = val2_str
+            x = "Residual",
+            y = "Count"
         )
 
     print( # see last print
