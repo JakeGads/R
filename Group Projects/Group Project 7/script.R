@@ -1,20 +1,7 @@
-#region works
-#' Loads packages via strings if a package is not found it will install it from a given repo
-#' @param package (string) the library that will be loaded in
-#' @param repo (string) the mirror you wish to download to defaults to defualt R mirror
-#' @export
-smart_package_loader <- function(package, repo="http://cran.rstudio.com"){
-    tryCatch({
-        library(package, character.only=TRUE)
-    },  error = function(e) {
-        install.packages(package, repos = repo)
-        tryCatch({
-                library(package, character.only=TRUE)
-            }, error = function(e) {
-                print("packages have failed to install please run in interactive mode")        
-            })  
-    })
-}
+library(tidyverse)
+library(devtools)
+library(modelr)
+library(gridExtra)
 
 #' Loads script via strings, if the script is not present it will attempt to download them
 #' @param location (string) if the entire project is loaded where it would stand
@@ -31,11 +18,6 @@ smart_script_loader <- function(location, repo = "https://raw.githubusercontent.
         })
 }
 
-# for loop that installs the packages that are needed 
-for (i in c("tidyverse", "devtools", "modelr", "gridExtra")){
-    smart_package_loader(i, "http://ftp.ussg.iu.edu/CRAN/") # on DeSales wifi this has been the best cran mirror to use
-}
-
 # for loop to grab additional scripts
 for (i in c("funs.R", "regression.R")){
     smart_script_loader(i)
@@ -43,13 +25,16 @@ for (i in c("funs.R", "regression.R")){
 
 # all files present in the system
 files <- c(
-    "data/basic_water_access.csv", 
+    "data/armed_forces_personnel.csv",
+    "data/basic_water_access.csv",
+    "data/earthquake.csv",
     "data/energy_production.csv",
     "data/income.csv",
     "data/life_expectancy.csv",
     "data/literacy_rate.csv",
+    "data/refugee_diaspora.csv",
+    "data/refugee_share.csv",
     "data/under_5_population.csv"
-    # Some Data is missing
 )
 
 val_names <- c(NA)
@@ -74,7 +59,7 @@ for (i in 1:length(files)) {
 
 
 
-data <- get_tibble(files[3], files[5]) # running get tibles will join the files
+data <- get_tibble(files[6], files[5]) # running get tibles will join the files
 regression <- loess(y ~ x, data) # the regression algorithm you want ot run
 grid <- data %>%
     data_grid(x) %>%
@@ -85,8 +70,9 @@ gen_model(
     regression, # the regression
     grid, # the grid, must be generated oustide of the function for some reason
     "Loess: log(y) ~ sqrt(x)", # a string to be used in labs
-    val_names[3], # used for labs, should match the first file
+    val_names[6], # used for labs, should match the first file
     val_names[5], # used for labs should match the second file
-    pdf='example', # if set it will save the pdf as that location, if not it will save as a raw
-    smooth_comp=T # will add a comparison to a geom_smooth
+    pdf="gamer", # if set it will save the pdf as that location, if not it will save as a raw
+    smooth_comp=T, # will add a comparison to a geom_smooth
+    bins = 25
 )

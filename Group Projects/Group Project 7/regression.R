@@ -50,14 +50,14 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
     df <- df %>%
     add_residuals(regression) # adding some regression to out dataframe
 
-    bins <- (max(df$resid) - min(df$resid)) / bins
+    bin <- (max(df$resid) - min(df$resid)) / bins
 
     plot <- ggplot(df, aes(resid)) + # plotting the residual regression
-        geom_freqpoly(binwidth=bins) +
+        geom_freqpoly(binwidth=bin) +
         ggtitle(title) +
         labs(
             title = paste(regression_formula_str, " Residuals", sep=""),
-            subtitle = paste(val1_str, " vs ", val2_str, sep=""),
+            subtitle = paste(val1_str, " vs ", val2_str, " with ", bins, " bins",sep=""),
             x = "Residual",
             y = "Count"
         )
