@@ -1,15 +1,16 @@
+# # IMPORTANT: THIS FUNCTION DOES NOT WORK ON WINDOWS
 #' Loads csv, if not found will reach out to github
 #' @param location (string) if the entire repo is present the file location 
 #' @param repo (string) where the repo is hosted, defaulted to the repo where this is hosted
 #' @export
 smart_data_loader <- function(location, repo = "https://raw.githubusercontent.com/gadzygadz/R/master/Group%20Projects/Group%20Project%207/"){
-    data <- 0 # populate the data with just something empty so returns fail less
+    data <- 0 # populate the data with just something empty so returns fail less often
     tryCatch(
         {
             data <- read_csv(location) # check the local location
         }, error = function(e) {
             print(paste("Downloading ", location, sep= "")) 
-            data <- read_csv(url(paste(repo, location, sep=""))) # reads from teh web
+            data <- read_csv(url(paste(repo, location, sep=""))) # reads from the web
         }
     )
     return(data)
@@ -27,7 +28,7 @@ get_tibble <- function(one,two) {
     #' @param val (string) the pivot system
     #' @export a cleaned data set
     clean <- function(file, val="variable") {
-        gen_data <- smart_data_loader(file) # smart download the data
+        gen_data <- smart_data_loader(file) # smart download the data, must be local on linux
         cols <- colnames(gen_data) # get my col names 
         gen_data <- gen_data %>% 
         pivot_longer(
@@ -45,7 +46,7 @@ get_tibble <- function(one,two) {
     y <- clean(two, "y")
      
     return(
-        inner_join(x, y) %>% na.omit(y) # na.omits
+        inner_join(x, y) %>% na.omit(y) # na.omits may return an empty dataframe but thats ok cause their is nothing to regress anyway
     )
 }
 
