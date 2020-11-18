@@ -36,7 +36,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
                 y = val2_str
             )
         
-        plot <- grid.arrange( # overwrite plot with a grid of the options
+        plot <- grid.arrange( # overwrite plot with a grid of the both plots
             plot, # our intial plot
             secondary, # our secondary plot
             nrow=1
@@ -50,7 +50,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
     df <- df %>%
     add_residuals(regression) # adding some regression to out dataframe
 
-    bin <- (max(df$resid) - min(df$resid)) / bins
+    bin <- (max(df$resid) - min(df$resid)) / bins # calcualtes the bin sizes based on the amount of bins you've asked for
 
     plot <- ggplot(df, aes(resid)) + # plotting the residual regression
         geom_freqpoly(binwidth=bin) +
