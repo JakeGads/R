@@ -1,3 +1,6 @@
+# Libraries
+# once their smart loaded but windows didn't like that
+# "e tu bill gates"
 library(tidyverse)
 library(devtools)
 library(modelr)
@@ -9,18 +12,18 @@ library(gridExtra)
 #' @export
 smart_script_loader <- function(location, repo = "https://raw.githubusercontent.com/gadzygadz/R/master/Group%20Projects/Group%20Project%207/"){
     tryCatch({
-            source(location)
+            source(location) # tries to download locally
         }, warning = function(e) {
-            print(paste("Downloading ", location, sep= ""))
-            source_url(paste(repo, location, sep=""))
+            print(paste("Downloading ", location, sep= "")) 
+            source_url(paste(repo, location, sep="")) # checks the website
         }, error = function(e) {
-            print("must use the raw page ie raw.githubusercontent.com, instead of github.com")
+            print("must use the raw page ie raw.githubusercontent.com, instead of github.com") # assumes the link was sent wrong
         })
 }
 
 # for loop to grab additional scripts
 for (i in c("funs.R", "regression.R")){
-    smart_script_loader(i)
+    smart_script_loader(i) # loads scripts even if not present on harddrive
 }
 
 # all files present in the system
@@ -37,6 +40,7 @@ files <- c(
     "data/under_5_population.csv"
 )
 
+# for making graphs pretty
 val_names <- c(NA)
 
 # loads them in dynamicaly
@@ -44,6 +48,8 @@ for (i in 1:length(files)) {
     val_names[i] <- get_var_name(files[i])
 }
 
+
+# # # All Types of regression that we have used previously
 # # linear
 # lm(y ~ x, data=df)
 # lm(y ~ I(x^2), df)
@@ -59,6 +65,8 @@ for (i in 1:length(files)) {
 
 
 
+# Example Run Through
+
 data <- get_tibble(files[6], files[5]) # running get tibles will join the files
 regression <- loess(y ~ x, data) # the regression algorithm you want ot run
 grid <- data %>%
@@ -72,7 +80,7 @@ gen_model(
     "Loess: log(y) ~ sqrt(x)", # a string to be used in labs
     val_names[6], # used for labs, should match the first file
     val_names[5], # used for labs should match the second file
-    pdf="gamer", # if set it will save the pdf as that location, if not it will save as a raw
+    pdf="example", # if set it will save the pdf as that location, if not it will save as a raw
     smooth_comp=T, # will add a comparison to a geom_smooth
     bins = 25
 )
