@@ -28,16 +28,16 @@ for (i in c("funs.R", "regression.R")){
 
 # all files present in the system
 files <- c(
-    "data/armed_forces_personnel.csv",
-    "data/basic_water_access.csv",
-    "data/earthquake.csv",
-    "data/energy_production.csv",
-    "data/income.csv",
-    "data/life_expectancy.csv",
-    "data/literacy_rate.csv",
-    "data/refugee_diaspora.csv",
-    "data/refugee_share.csv",
-    "data/under_5_population.csv"
+    "armed_forces_personnel.csv",
+    "basic_water_access.csv",
+    "earthquake.csv",
+    "energy_production.csv",
+    "income.csv",
+    "life_expectancy.csv",
+    "literacy_rate.csv",
+    "refugee_diaspora.csv",
+    "refugee_share.csv",
+    "under_5_population.csv"
 )
 
 # for making graphs pretty
@@ -140,7 +140,7 @@ start <- 5
 end <- 2
 
 data <- get_tibble(files[start], files[end]) # running get tibles will join the files
-regression <- lm(log(y) ~ sqrt(x) - 1, data) # the regression algorithm you want ot run
+regression <- lm(y ~ x, data=data) # the regression algorithm you want ot run
 grid <- data %>%
     data_grid(x) %>%
     add_predictions(regression) # follow this example to save it to the grid
@@ -149,7 +149,7 @@ gen_model(
     data, # the data frame
     regression, # the regression
     grid, # the grid, must be generated oustide of the function for some reason
-    "LM: log(y) ~ sqrt(x) - 1", # a string to be used in labs
+    "LM: y ~ x", # a string to be used in labs
     val_names[start], # used for labs, should match the first file
     val_names[end], # used for labs should match the second file
     pdf="4", # if set it will save the pdf as that location, if not it will save as a raw
