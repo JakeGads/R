@@ -51,23 +51,26 @@ for (i in 1:length(files)) {
 
 # # # All Types of regression that we have used previously
 # # linear
-# lm(y ~ x, data=df)
-# lm(y ~ I(x^2), df)
-# lm(log(y) ~ sqrt(x) - 1, df)
-# lm(y ~ I(x^2) + x - 1, df)
+# lm(y ~ x, data=data)
+# lm(y ~ I(x^2), data)
+# lm(log(y) ~ sqrt(x) - 1, data)
+# lm(y ~ I(x^2) + x - 1, data)
 
 # loess
-# loess(y ~ x, data=df)
-# loess(y ~ I(x^2), df)
-# loess(log(y) ~ sqrt(x) - 1, df)
-# loess(y ~ I(x^2) + x - 1, df)
+# loess(y ~ x, data=data)
+# loess(y ~ I(x^2), data)
+# loess(log(y) ~ sqrt(x) - 1, data)
+# loess(y ~ I(x^2) + x - 1, data)
 #endregion
 
 
 
-# Example Run Through
 
-data <- get_tibble(files[6], files[5]) # running get tibles will join the files
+#region first graph
+start <- 8
+end <- 9
+
+data <- get_tibble(files[start], files[end]) # running get tibles will join the files
 regression <- loess(y ~ x, data) # the regression algorithm you want ot run
 grid <- data %>%
     data_grid(x) %>%
@@ -78,9 +81,79 @@ gen_model(
     regression, # the regression
     grid, # the grid, must be generated oustide of the function for some reason
     "Loess: log(y) ~ sqrt(x)", # a string to be used in labs
-    val_names[6], # used for labs, should match the first file
-    val_names[5], # used for labs should match the second file
-    pdf="example", # if set it will save the pdf as that location, if not it will save as a raw
+    val_names[start], # used for labs, should match the first file
+    val_names[end], # used for labs should match the second file
+    pdf="1", # if set it will save the pdf as that location, if not it will save as a raw
     smooth_comp=T, # will add a comparison to a geom_smooth
-    bins = 25
+    bins = 10
 )
+#endregion
+
+#region second graph
+start <- 1
+end <- 3
+
+data <- get_tibble(files[start], files[end]) # running get tibles will join the files
+regression <- lm(y ~ I(x^2) + x - 1, data) # the regression algorithm you want ot run
+grid <- data %>%
+    data_grid(x) %>%
+    add_predictions(regression) # follow this example to save it to the grid
+
+gen_model(
+    data, # the data frame
+    regression, # the regression
+    grid, # the grid, must be generated oustide of the function for some reason
+    "lm y ~ I(x^2) + x - 1", # a string to be used in labs
+    val_names[start], # used for labs, should match the first file
+    val_names[end], # used for labs should match the second file
+    pdf="2", # if set it will save the pdf as that location, if not it will save as a raw
+    smooth_comp=T, # will add a comparison to a geom_smooth
+    bins = 10
+)
+#endregion
+
+#region third graph
+start <- 2
+end <- 4
+
+data <- get_tibble(files[start], files[end]) # running get tibles will join the files
+regression <- loess(y ~ I(x^2), data) # the regression algorithm you want ot run
+grid <- data %>%
+    data_grid(x) %>%
+    add_predictions(regression) # follow this example to save it to the grid
+
+gen_model(
+    data, # the data frame
+    regression, # the regression
+    grid, # the grid, must be generated oustide of the function for some reason
+    "loess: y ~ I(x^2)", # a string to be used in labs
+    val_names[start], # used for labs, should match the first file
+    val_names[end], # used for labs should match the second file
+    pdf="3", # if set it will save the pdf as that location, if not it will save as a raw
+    smooth_comp=T, # will add a comparison to a geom_smooth
+    bins = 10
+)
+#endregion
+
+#region third graph
+start <- 5
+end <- 2
+
+data <- get_tibble(files[start], files[end]) # running get tibles will join the files
+regression <- lm(log(y) ~ sqrt(x) - 1, data) # the regression algorithm you want ot run
+grid <- data %>%
+    data_grid(x) %>%
+    add_predictions(regression) # follow this example to save it to the grid
+
+gen_model(
+    data, # the data frame
+    regression, # the regression
+    grid, # the grid, must be generated oustide of the function for some reason
+    "LM: log(y) ~ sqrt(x) - 1", # a string to be used in labs
+    val_names[start], # used for labs, should match the first file
+    val_names[end], # used for labs should match the second file
+    pdf="4", # if set it will save the pdf as that location, if not it will save as a raw
+    smooth_comp=T, # will add a comparison to a geom_smooth
+    bins = 10
+)
+#endregion
