@@ -14,7 +14,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
     }
 
     # create the first plot
-    plot <- ggplot(df, aes(x)) + 
+    plot1 <- ggplot(df, aes(x)) + 
         geom_point(aes(y=y)) +
         geom_point(data = grid, aes(y=pred), color="orange") + # orange was chosen to be color-blind friendlier
         labs( # labs
@@ -23,6 +23,12 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             x = val1_str,
             y = val2_str
         )
+    
+    dir.create("pics")
+    png(paste("pics/", pdf, "-", 1, ".png", sep = " "))
+    print(plot1)
+    dev.off()
+
     if(smooth_comp){ # if they want a comparson
         # generate a second fraph with the 2nd point replaced with a smooth
         secondary <- ggplot(df, aes(x)) + 
@@ -36,15 +42,15 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
                 y = val2_str
             )
         
-        plot <- grid.arrange( # overwrite plot with a grid of the both plots
-            plot, # our intial plot
+        plot1 <- grid.arrange( # overwrite plot with a grid of the both plots
+            plot1, # our intial plot
             secondary, # our secondary plot
             nrow=1
         )
     }
 
     print(
-        plot # prints, if set to a pdf it will print there else it will use whatever output method is available
+        plot1 # prints, if set to a pdf it will print there else it will use whatever output method is available
     )
 
     df <- df %>%
@@ -52,7 +58,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
 
     bin <- (max(df$resid) - min(df$resid)) / bins # calcualtes the bin sizes based on the amount of bins you've asked for
 
-    plot <- ggplot(df, aes(resid)) + # plotting the residual regression
+    plot2 <- ggplot(df, aes(resid)) + # plotting the residual regression
         geom_freqpoly(binwidth=bin) +
         ggtitle(title) +
         labs(
@@ -61,14 +67,15 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             x = "Residual",
             y = "Count"
         )
-
+    
+    
     print( # see last print
-       plot
+       plot2
     )
     
 
     # graphing against the residual
-    plot <- ggplot(df, aes(x,resid)) +
+    plot3 <- ggplot(df, aes(x,resid)) +
         geom_point() +
         geom_ref_line(h=0) +
         ggtitle(title) +
@@ -78,6 +85,11 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             x = val1_str,
             y = val2_str
         )
+
+    png(paste("pics/", pdf, "-", 3, ".png", sep = " "))
+    print(plot3)
+    dev.off()
+
 
     if(smooth_comp){ # including the comparision
         secondary <- ggplot(df, aes(x,resid)) +
@@ -91,18 +103,31 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             y = val2_str
         )
 
-        plot <- grid.arrange(
-            plot,
+        plot3 <- grid.arrange(
+            plot3,
             secondary,
             nrow=2
         )
     }
 
     print(
-        plot
+        plot3
     )
 
     if(pdf != ''){ # if a pdf was selected it will now shutdown the outfile and save it
         dev.off()
     }
+
+    png(paste("pics/", pdf, "-", 1, ".png", sep = " "))
+    print(plot1)
+    dev.off()
+
+    png(paste("pics/", pdf, "-", 2, ".png", sep = " "))
+    print(plot2)
+    dev.off()
+
+    png(paste("pics/", pdf, "-", 3, ".png", sep = " "))
+    print(plot3)
+    dev.off()
+
 }

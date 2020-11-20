@@ -28,16 +28,16 @@ for (i in c("funs.R", "regression.R")){
 
 # all files present in the system
 files <- c(
-    "armed_forces_personnel.csv",
-    "basic_water_access.csv",
-    "earthquake.csv",
-    "energy_production.csv",
-    "income.csv",
-    "life_expectancy.csv",
-    "literacy_rate.csv",
-    "refugee_diaspora.csv",
-    "refugee_share.csv",
-    "under_5_population.csv"
+    "data/armed_forces_personnel.csv",
+    "data/basic_water_access.csv",
+    "data/earthquake.csv",
+    "data/energy_production.csv",
+    "data/income.csv",
+    "data/life_expectancy.csv",
+    "data/literacy_rate.csv",
+    "data/refugee_diaspora.csv",
+    "data/refugee_share.csv",
+    "data/under_5_population.csv"
 )
 
 # for making graphs pretty
