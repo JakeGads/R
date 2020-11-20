@@ -25,7 +25,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
         )
     
     dir.create("pics")
-    png(paste("pics/", pdf, "-", 1, ".png", sep = " "))
+    png(paste("pics/", pdf, "-", 1, ".png", sep = ""))
     print(plot1)
     dev.off()
 
@@ -67,7 +67,10 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             x = "Residual",
             y = "Count"
         )
-    
+    dir.create("pics")
+    png(paste("pics/", pdf, "-", 2, ".png", sep = ""))
+    print(plot2)
+    dev.off()
     
     print( # see last print
        plot2
@@ -86,7 +89,7 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
             y = val2_str
         )
 
-    png(paste("pics/", pdf, "-", 3, ".png", sep = " "))
+    png(paste("pics/", pdf, "-", 3, ".png", sep=""))
     print(plot3)
     dev.off()
 
@@ -118,16 +121,5 @@ gen_model <- function(df, regression, grid, regression_formula_str='A regression
         dev.off()
     }
 
-    png(paste("pics/", pdf, "-", 1, ".png", sep = " "))
-    print(plot1)
-    dev.off()
-
-    png(paste("pics/", pdf, "-", 2, ".png", sep = " "))
-    print(plot2)
-    dev.off()
-
-    png(paste("pics/", pdf, "-", 3, ".png", sep = " "))
-    print(plot3)
-    dev.off()
 
 }
